@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\TrackStar.csproj": {}
+    "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar.csproj": {}
   },
   "projects": {
-    "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\TrackStar.csproj": {
+    "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\TrackStar.csproj",
+        "projectUniqueName": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar.csproj",
         "projectName": "TrackStar",
-        "projectPath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\TrackStar.csproj",
+        "projectPath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar.csproj",
         "packagesPath": "C:\\Users\\yagiz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\obj\\",
+        "outputPath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -79,7 +78,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

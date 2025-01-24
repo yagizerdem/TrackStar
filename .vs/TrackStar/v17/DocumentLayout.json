@@ -1,25 +1,25 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\",
+  "WorkspaceRootPath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\trackstar\\mvvm\\viewmodel\\homeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\mvvm\\viewmodel\\homeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\trackstar\\mvvm\\models\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\mvvm\\models\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\trackstar\\mvvm\\models\\moviesearchlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\mvvm\\models\\moviesearchlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\trackstar\\mvvm\\view\\homepanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\mvvm\\view\\homepanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\mvvm\\view\\homepanel.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\trackstar\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\mvvm\\models\\moviesearchlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\mvvm\\models\\moviesearchlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\mvvm\\viewmodel\\homeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\mvvm\\viewmodel\\homeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\mvvm\\models\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\mvvm\\models\\movie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|c:\\users\\yagiz\\desktop\\trackstar\\trackstar\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{C37E8D21-EF2F-4EC6-84EB-C04FCFF71E31}|TrackStar\\TrackStar.csproj|solutionrelative:trackstar\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -30,54 +30,54 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Movie.cs",
-              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\Models\\Movie.cs",
+              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\Models\\Movie.cs",
               "RelativeDocumentMoniker": "TrackStar\\MVVM\\Models\\Movie.cs",
-              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\Models\\Movie.cs",
+              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\Models\\Movie.cs",
               "RelativeToolTip": "TrackStar\\MVVM\\Models\\Movie.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-24T16:50:42.349Z",
+              "WhenOpened": "2025-01-24T18:37:21.966Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "MovieSearchList.cs",
+              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\Models\\MovieSearchList.cs",
+              "RelativeDocumentMoniker": "TrackStar\\MVVM\\Models\\MovieSearchList.cs",
+              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\Models\\MovieSearchList.cs",
+              "RelativeToolTip": "TrackStar\\MVVM\\Models\\MovieSearchList.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-24T18:37:19.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "HomeViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\ViewModel\\HomeViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\ViewModel\\HomeViewModel.cs",
               "RelativeDocumentMoniker": "TrackStar\\MVVM\\ViewModel\\HomeViewModel.cs",
-              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\ViewModel\\HomeViewModel.cs",
+              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\ViewModel\\HomeViewModel.cs",
               "RelativeToolTip": "TrackStar\\MVVM\\ViewModel\\HomeViewModel.cs",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAAwHUAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAuwHEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-24T16:20:04.152Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MovieSearchList.cs",
-              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\Models\\MovieSearchList.cs",
-              "RelativeDocumentMoniker": "TrackStar\\MVVM\\Models\\MovieSearchList.cs",
-              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\Models\\MovieSearchList.cs",
-              "RelativeToolTip": "TrackStar\\MVVM\\Models\\MovieSearchList.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-24T16:06:18.437Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
               "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\App.xaml",
+              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\App.xaml",
               "RelativeDocumentMoniker": "TrackStar\\App.xaml",
-              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\App.xaml",
+              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\App.xaml",
               "RelativeToolTip": "TrackStar\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-01-24T15:35:45.36Z",
@@ -85,11 +85,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "HomePanel.xaml",
-              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\View\\HomePanel.xaml",
+              "DocumentMoniker": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\View\\HomePanel.xaml",
               "RelativeDocumentMoniker": "TrackStar\\MVVM\\View\\HomePanel.xaml",
-              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\MVVM\\View\\HomePanel.xaml",
+              "ToolTip": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\MVVM\\View\\HomePanel.xaml",
               "RelativeToolTip": "TrackStar\\MVVM\\View\\HomePanel.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-01-24T14:23:44.297Z",

@@ -38,7 +38,7 @@ namespace TrackStar.MVVM.ViewModel
             set
             {
                 _searchList = value;
-                OnPropertyChanged(nameof(MovieSearchList));
+                OnPropertyChanged(nameof(SearchList));
             }
         }
 

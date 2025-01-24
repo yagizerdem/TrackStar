@@ -34,14 +34,36 @@
                 <Label Style="{StaticResource HomeGenre5}" Grid.Row="1" Grid.Column="1">Romance</Label>
                 <Label Style="{StaticResource HomeGenre6}" Grid.Row="1" Grid.Column="2">Animation</Label>
             </Grid>
-            
-            
-            
-            <StackPanel Width="300" DockPanel.Dock="Right">
-                <Label Content="{Binding totalResults}" Foreground="White" />
-            </StackPanel>
-            
-            
+
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="5"  VerticalAlignment="Stretch" DockPanel.Dock="Right">
+
+                <StackPanel Width="300" >
+                    <TextBlock TextWrapping="Wrap" Foreground="White">
+           <Run Text="TotalResults: " FontWeight="Bold" />
+           <Run Text="{Binding SearchList.totalResults}" />
+                    </TextBlock>
+
+                    <TextBlock TextWrapping="Wrap" Foreground="White" Text="Suggested results"></TextBlock>
+
+                    <ListView ItemsSource="{Binding SearchList.Search}" Background="Transparent" VerticalAlignment="Stretch"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="{Binding Poster,Converter={StaticResource UriToBitmapImageConverter}}" 
+                           Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Content="{Binding Title}" Foreground="White" FontWeight="Bold"></Label>
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+            </ScrollViewer>
+
+
             <StackPanel>
                 <Label Content="{Binding Movie.Title}" Style="{StaticResource HomePageFilmTitle}"/>
                 <Grid>
