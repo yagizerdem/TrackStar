@@ -1,0 +1,60 @@
+﻿<Window x:Class="TrackStar.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TrackStar"
+        mc:Ignorable="d"
+        xmlns:views="clr-namespace:TrackStar.MVVM.View"
+        xmlns:vm="clr-namespace:TrackStar.MVVM.ViewModel"
+        Title="MainWindow" Height="450" Width="800"
+        MinWidth="800" 
+        MinHeight="500">
+
+    <Window.Resources>
+        <!-- Map HomeViewModel to HomePanel -->
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomePanel  ViewModel="{Binding}" />
+        </DataTemplate>
+
+        <!-- Map SettingsViewModel to SettingsPanel -->
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsPanel  ViewModel="{Binding}"/>
+        </DataTemplate>
+
+        <!-- Map SearchViewModel to SearchPanel -->
+        <DataTemplate DataType="{x:Type vm:SearchViewModel}">
+            <views:SearchPanel  ViewModel="{Binding}"/>
+        </DataTemplate>
+    </Window.Resources>
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource DarkBlueGradientStyle}">
+            <StackPanel>
+                <Button Command="{Binding NavigateHomePanelCommand}"
+                        Style="{StaticResource LeftBarNavigationButtons}">
+                    Home
+                </Button>
+                <Button Command="{Binding NavigateSettingsPanelCommand}" 
+                        Style="{StaticResource LeftBarNavigationButtons}">
+                    Search
+                </Button>
+                <Button Command="{Binding NavigateSearchPanelCommand}"
+                        Style="{StaticResource LeftBarNavigationButtons}">
+                    Settings
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <ContentControl Content="{Binding CurrentViewModel}" />
+
+        </Grid>
+    </Grid>
+</Window>
