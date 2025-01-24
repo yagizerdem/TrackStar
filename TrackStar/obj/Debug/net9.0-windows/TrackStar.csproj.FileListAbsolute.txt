@@ -33,3 +33,4 @@ C:\Users\yagiz\Desktop\TrackStar\TrackStar\bin\Debug\net9.0-windows\runtimes\win
 C:\Users\yagiz\Desktop\TrackStar\TrackStar\obj\Debug\net9.0-windows\TrackStar.csproj.AssemblyReference.cache
 C:\Users\yagiz\Desktop\TrackStar\TrackStar\obj\Debug\net9.0-windows\TrackStar.csproj.Up2Date
 C:\Users\yagiz\Desktop\TrackStar\TrackStar\bin\Debug\net9.0-windows\Newtonsoft.Json.dll
+C:\Users\yagiz\Desktop\TrackStar\TrackStar\obj\Debug\net9.0-windows\TrackStar.sourcelink.json
