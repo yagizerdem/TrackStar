@@ -45,9 +45,136 @@
             <Setter Property="Margin" Value="10" />
             <Setter Property="FontWeight" Value="Bold" />
         </Style>
+        <Style TargetType="Label" x:Key="HomeGenre1">
+            <Setter Property="Foreground" Value="Wheat" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0.0" Color="#003366" />
+                        <!-- Deep blue -->
+                        <GradientStop Offset="0.5" Color="#00509E" />
+                        <!-- Medium blue -->
+                        <GradientStop Offset="1.0" Color="#003366" />
+                        <!-- Lighter blue -->
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="Label" x:Key="HomeGenre2">
+            <Setter Property="Foreground" Value="Wheat" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0.0" Color="#660000" />
+                        <!-- Dark red -->
+                        <GradientStop Offset="0.5" Color="#FF4500" />
+                        <!-- Bright red-orange -->
+                        <GradientStop Offset="1.0" Color="#8B0000" />
+                        <!-- Deep crimson -->
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="Label" x:Key="HomeGenre3">
+            <Setter Property="Foreground" Value="Wheat" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0.0" Color="#4B0082" />
+                        <!-- Deep indigo purple -->
+                        <GradientStop Offset="0.5" Color="#800080" />
+                        <!-- Rich purple -->
+                        <GradientStop Offset="1.0" Color="#9932CC" />
+                        <!-- Lighter purple -->
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="Label" x:Key="HomeGenre4">
+            <Setter Property="Foreground" Value="Wheat" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0.0" Color="#013220" />
+                        <!-- Very dark green -->
+                        <GradientStop Offset="0.5" Color="#026639" />
+                        <!-- Rich deep green -->
+                        <GradientStop Offset="1.0" Color="#013220" />
+                        <!-- Very dark green -->
 
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="Label" x:Key="HomeGenre5">
+            <Setter Property="Foreground" Value="Wheat" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0.0" Color="#4E2A04" />
+                        <!-- Dark brown -->
+                        <GradientStop Offset="0.5" Color="#8B4513" />
+                        <!-- Medium brown -->
+                        <GradientStop Offset="1.0" Color="#4E2A04" />
+                        <!-- Dark brown -->
 
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style TargetType="Label" x:Key="HomeGenre6">
+            <Setter Property="Foreground" Value="Wheat" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0.0" Color="#1C1C1C" />
+                        <!-- Very dark gray (light black) -->
+                        <GradientStop Offset="0.5" Color="#4F4F4F" />
+                        <!-- Medium gray -->
+                        <GradientStop Offset="1.0" Color="#1C1C1C" />
+                        <!-- Very dark gray (light black) -->
 
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+        </Style>
+        <Style x:Key="HomePageFilmTitle" TargetType="Label">
+            <Setter Property="Margin" Value="0,5,0,15" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="25" />
+        </Style>
 
     </Application.Resources>
 </Application>

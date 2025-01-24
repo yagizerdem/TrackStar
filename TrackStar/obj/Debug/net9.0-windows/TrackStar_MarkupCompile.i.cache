@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\yagiz\Desktop\TrackStar\TrackStar\obj\Debug\net9.0-windows\
+C:\Users\yagiz\Desktop\TrackStar\TrackStar\TrackStar\obj\Debug\net9.0-windows\
 TrackStar
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
-C:\Users\yagiz\Desktop\TrackStar\TrackStar\App.xaml
+C:\Users\yagiz\Desktop\TrackStar\TrackStar\TrackStar\App.xaml
 41019887879
 
-20-162949881
-202262030631
+21-1437010649
+201337268886
 MainWindow.xaml;MVVM\View\HomePanel.xaml;MVVM\View\SearchPanel.xaml;MVVM\View\SettingsPanel.xaml;
 
-False
+True
 

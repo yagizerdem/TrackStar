@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5Wz6EIKud+c=",
+  "dgSpecHash": "vXhqUI2pTx4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar.csproj",
+  "projectFilePath": "C:\\Users\\yagiz\\Desktop\\TrackStar\\TrackStar\\TrackStar\\TrackStar.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\yagiz\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\yagiz\\.nuget\\packages\\system.configuration.configurationmanager\\9.0.1\\system.configuration.configurationmanager.9.0.1.nupkg.sha512",

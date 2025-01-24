@@ -13,14 +13,35 @@ namespace TrackStar.Util
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            long l;
-            if (Int64.TryParse(value, out l))
+            if (reader.TokenType == JsonToken.Null)
             {
-                return l;
+                return t == typeof(long?) ? (long?)null : 0; // Return default value for nullable or non-nullable long
             }
-            throw new Exception("Cannot unmarshal type long");
+
+            if (reader.TokenType == JsonToken.Integer)
+            {
+                // If the value is already a long
+                return Convert.ToInt64(reader.Value);
+            }
+
+            if (reader.TokenType == JsonToken.String)
+            {
+                var value = serializer.Deserialize<string>(reader);
+
+                // Check for "N/A" or other invalid values
+                if (string.IsNullOrWhiteSpace(value) || value.Equals("N/A", StringComparison.OrdinalIgnoreCase))
+                {
+                    return t == typeof(long?) ? (long?)null : 0; // Return default value for invalid strings
+                }
+
+                // Try to parse the string as a long
+                if (long.TryParse(value, out var l))
+                {
+                    return l;
+                }
+            }
+            // Base case: Handle any other unexpected token types or invalid data
+            return t == typeof(long?) ? (long?)null : 0; // Return default value
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
@@ -30,10 +51,10 @@ namespace TrackStar.Util
                 serializer.Serialize(writer, null);
                 return;
             }
+
             var value = (long)untypedValue;
             serializer.Serialize(writer, value.ToString());
-            return;
         }
-
     }
+
 }

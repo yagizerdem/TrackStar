@@ -1,12 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using TrackStar.MVVM.Models;
 
 namespace TrackStar.MVVM.ViewModel
@@ -15,6 +18,30 @@ namespace TrackStar.MVVM.ViewModel
     {
         private string apiKey { get; set; } = String.Empty;
         private readonly HttpClient client = new HttpClient();
+        
+        private Movie _movie;
+        public Movie Movie
+        {
+            get => _movie;
+            set
+            {
+                _movie = value;
+                OnPropertyChanged(nameof(Movie));
+            }
+        }
+
+        private MovieSearchList _searchList;
+
+        public MovieSearchList SearchList
+        {
+            get => _searchList;
+            set
+            {
+                _searchList = value;
+                OnPropertyChanged(nameof(MovieSearchList));
+            }
+        }
+
         public HomeViewModel()
         {
             // Open current application configuration
@@ -72,7 +99,6 @@ namespace TrackStar.MVVM.ViewModel
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
-
                 MovieSearchList MovieSearchList = MovieSearchList.FromJson(responseBody);
 
                 Search FirstSearch = MovieSearchList.Search.First();
@@ -83,7 +109,10 @@ namespace TrackStar.MVVM.ViewModel
 
                 Movie movie = Movie.FromJson(responseBody);
 
-                ;
+                // trigger ui update
+                this.SearchList = MovieSearchList;
+                this.Movie = movie;
+
             }
             catch (HttpRequestException e)
             {
@@ -95,7 +124,7 @@ namespace TrackStar.MVVM.ViewModel
 
         public async Task Initilize()
         {
-            //await FetchData();
+            await FetchData();
         }
     }
 }
