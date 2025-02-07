@@ -1,0 +1,25 @@
+/* Initial hidden state */
+.sidebar-enter {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* Entering */
+.sidebar-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+/* Exiting */
+.sidebar-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Exit animation */
+.sidebar-exit-active {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}

@@ -1,6 +1,6 @@
 class Settings {
-  Name: String | null = null;
-  Language: String | null = null;
+  Name: string | null = null;
+  Language: string | null = null;
 }
 
 export default Settings;

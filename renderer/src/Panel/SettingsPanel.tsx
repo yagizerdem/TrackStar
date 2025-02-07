@@ -43,7 +43,7 @@ const SettingsPanel: FC = () => {
 
   return (
     <Fragment>
-      <div className="flex-1 text-white  bg-gray-800 border-t-4 border-gray-900 p-8">
+      <div className="flex-1 text-white  bg-gray-600 border-t-4 border-gray-900 p-8">
         <div className="m-auto flex flex-col align-middle justify-center">
           <input
             type="text"

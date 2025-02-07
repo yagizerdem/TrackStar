@@ -53,13 +53,9 @@ class Database {
             } else {
               // console.log("Settings data:", rows);
               if (rows.length == 0) {
-                // seed settings
-                const settingEntity = new Settings();
-                settingEntity.language = "en"; // default language
-
                 this.db.run(
                   `INSERT INTO settings (language, name) VALUES (?, ?)`,
-                  [settingEntity.language, null],
+                  ["en", null],
                   function (err) {
                     if (err) {
                       console.error(
