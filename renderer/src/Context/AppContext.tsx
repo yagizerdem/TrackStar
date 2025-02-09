@@ -8,6 +8,8 @@ import React, {
 import Settings from "../models/Settings";
 import HomePanel from "../Panel/HomePanel";
 import { showSuccessToast } from "../utils/Toaster";
+import SearchPanel from "../Panel/SearchPanel";
+import StarredPanel from "../Panel/StarredPanel";
 
 interface AppContextType {
   isLoading: boolean;

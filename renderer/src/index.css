@@ -108,3 +108,21 @@ video {
 body {
   font-family: "Edu_AU_VIC_WA_NT_Hand", "Ga_Maamli";
 }
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+  background: #2d2d2d; /* Dark background for track */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a90e2; /* Blue scrollbar */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #357abd; /* Darker blue on hover */
+}

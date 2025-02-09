@@ -1,5 +1,4 @@
 import { createRoot } from "react-dom/client";
-import "./index.css";
 import "./globals.css";
 import "toastify-js/src/toastify.css";
 import App from "./App.tsx";
@@ -8,6 +7,11 @@ import i18next from "i18next";
 import { I18nextProvider } from "react-i18next";
 import en from "./assets/Localization/en.json";
 import fr from "./assets/Localization/fr.json";
+import "./vendor/uikit/css/uikit.min.css";
+import "./vendor/uikit/js/uikit.min.js";
+import "./vendor/bootstrap/js/bootstrap.min.js";
+import "./vendor/bootstrap/css/bootstrap.min.css";
+import "./index.css";
 
 Main();
 

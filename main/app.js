@@ -3,14 +3,26 @@ const path = require("path");
 const { SettingsController } = require("./Controllers/SettingsController");
 const { Database } = require("./DbContext/Database");
 const isDev = import("electron-is-dev");
+const { MoviesController } = require("./Controllers/MoviesController");
+const { SeriesController } = require("./Controllers/SeriesController");
 
 // initilize database
 new Database();
 
 const settingsController = new SettingsController();
+const moviesController = new MoviesController();
+const seriesController = new SeriesController();
 
 ipcMain.handle("settings:get", settingsController.getSettings);
 ipcMain.handle("settings:update", settingsController.updateSettings);
+
+ipcMain.handle("movies:add", moviesController.addMovie);
+ipcMain.handle("movies:get", moviesController.get);
+ipcMain.handle("movies:delete", moviesController.delete);
+
+ipcMain.handle("series:add", seriesController.addSeries);
+ipcMain.handle("series:get", seriesController.get);
+ipcMain.handle("series:delete", seriesController.delete);
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -26,6 +38,10 @@ const createWindow = () => {
   const startURL = isDev
     ? "http://localhost:5173"
     : `file://${path.join(__dirname, "../renderer/build/index.html")}`;
+
+  ipcMain.handle("get-window-size", (event) => {
+    return mainWindow.getBounds();
+  });
 
   mainWindow.loadURL(startURL);
 

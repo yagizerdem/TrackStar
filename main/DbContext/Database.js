@@ -76,6 +76,79 @@ class Database {
         }
       }
     );
+
+    this.db.run(
+      `
+      CREATE TABLE IF NOT EXISTS Movies (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    Title TEXT,
+    Year TEXT,
+    Rated TEXT,
+    Released TEXT,
+    Runtime TEXT,
+    Genre TEXT,
+    Director TEXT,
+    Writer TEXT,
+    Actors TEXT,
+    Plot TEXT,
+    Language TEXT,
+    Country TEXT,
+    Awards TEXT,
+    Poster TEXT,
+    Metascore TEXT,
+    imdbRating TEXT,
+    imdbVotes TEXT,
+    imdbID TEXT ,
+    Type TEXT,
+    DVD TEXT,
+    BoxOffice TEXT,
+    Production TEXT,
+    Website TEXT,
+    Response TEXT,
+    Ratings TEXT -- JSON string to store multiple ratings
+);
+      `,
+      (err) => {
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
+
+    this.db.run(
+      `
+      CREATE TABLE IF NOT EXISTS Series (
+        Id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        Title TEXT,
+        Year TEXT,
+        Rated TEXT,
+        Released TEXT,
+        Runtime TEXT,
+        Genre TEXT,
+        Director TEXT,
+        Writer TEXT,
+        Actors TEXT,
+        Plot TEXT,
+        Language TEXT,
+        Country TEXT,
+        Awards TEXT,
+        Poster TEXT,
+        Metascore TEXT,
+        imdbRating TEXT,
+        imdbVotes TEXT,
+        imdbID TEXT,
+        Type TEXT,
+        totalSeasons TEXT,
+        Response TEXT,
+        Ratings TEXT -- JSON string to store multiple ratings
+      );
+      `,
+      (err) => {
+        if (err) {
+          console.log("Error creating table:", err);
+        }
+      }
+    );
   }
 
   createDbConnection(filepath) {
