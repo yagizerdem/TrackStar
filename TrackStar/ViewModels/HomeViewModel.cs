@@ -23,11 +23,21 @@ namespace TrackStar.ViewModels
 
         private readonly MovieService _movieService;
 
-        public ObservableCollection<OmdbMovieDTO> Movies { get; set; } = new(); 
+        public ObservableCollection<OmdbMovieDTO> Movies { get; set; } = new();
 
+
+        private OmdbMovieDetailsDTO? _selecteDetails;
+
+        public OmdbMovieDetailsDTO? SelectedDetails
+        {
+            get => _selecteDetails;
+            set => SetProperty(ref _selecteDetails, value);
+        }
 
         // commands
         public RelayCommand<OmdbMovieDTO> ShowDetailsCommand { get; set; }
+
+        public  RelayCommand<object> CancelCommand { get; set; }
 
         public HomeViewModel()
         {
@@ -37,6 +47,7 @@ namespace TrackStar.ViewModels
             Task.Run(async () => await FetchInitialData());
 
             ShowDetailsCommand = new RelayCommand<OmdbMovieDTO>(async (obj) => await ShowDetailsExecute(obj), _ => true);
+            CancelCommand = new RelayCommand<object>(_ => SelectedDetails = null, _ => true);
         }
     
         public async Task FetchInitialData()
@@ -73,9 +84,21 @@ namespace TrackStar.ViewModels
 
         public async Task ShowDetailsExecute(OmdbMovieDTO  dto)
         {
-            OmdbMovieDetailsDTO response = await _movieService.GetMovieDetailsByTitle(dto.Title);
+            try
+            {
+                IsLoading = true;
+                OmdbMovieDetailsDTO response = await _movieService.GetMovieDetailsByTitle(dto.Title);
+                SelectedDetails = response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error showing details: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
 
-            ;
         }
     }
 }
