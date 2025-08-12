@@ -5,6 +5,14 @@ namespace TrackStar.ViewModels
     public class MainViewModel : ViewModelBase
     {
 
+        private bool _isLoading;
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set { SetProperty(ref _isLoading, value); }
+        }
+
         public RelayCommand<object> NavigateHome { get; set; }
 
         public RelayCommand<object> NavigateSearch { get; set; }
