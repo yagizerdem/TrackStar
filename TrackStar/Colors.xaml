@@ -1,0 +1,136 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Mortar Color Palette -->
+    <SolidColorBrush x:Key="Mortar50"  Color="#FFF7F6F8"/>
+    <SolidColorBrush x:Key="Mortar100" Color="#FFEDEAef"/>
+    <SolidColorBrush x:Key="Mortar200" Color="#FFDEDAE3"/>
+    <SolidColorBrush x:Key="Mortar300" Color="#FFC7C1CF"/>
+    <SolidColorBrush x:Key="Mortar400" Color="#FFADA3B7"/>
+    <SolidColorBrush x:Key="Mortar500" Color="#FF9A8CA5"/>
+    <SolidColorBrush x:Key="Mortar600" Color="#FF8B7B95"/>
+    <SolidColorBrush x:Key="Mortar700" Color="#FF7F6E87"/>
+    <SolidColorBrush x:Key="Mortar800" Color="#FF6B5D70"/>
+    <SolidColorBrush x:Key="Mortar900" Color="#FF473F4B"/>
+    <SolidColorBrush x:Key="Mortar950" Color="#FF37313A"/>
+
+
+    <!-- Mulled Wine Color Palette -->
+    <SolidColorBrush x:Key="MulledWine50"  Color="#FFF9F8FB"/>
+    <SolidColorBrush x:Key="MulledWine100" Color="#FFF4F1F6"/>
+    <SolidColorBrush x:Key="MulledWine200" Color="#FFE8E3EB"/>
+    <SolidColorBrush x:Key="MulledWine300" Color="#FFD5CCDB"/>
+    <SolidColorBrush x:Key="MulledWine400" Color="#FFBCADC5"/>
+    <SolidColorBrush x:Key="MulledWine500" Color="#FF9F8BAA"/>
+    <SolidColorBrush x:Key="MulledWine600" Color="#FF816C8D"/>
+    <SolidColorBrush x:Key="MulledWine700" Color="#FF6A5873"/>
+    <SolidColorBrush x:Key="MulledWine800" Color="#FF58495F"/>
+    <SolidColorBrush x:Key="MulledWine900" Color="#FF4B3F50"/>
+    <SolidColorBrush x:Key="MulledWine950" Color="#FF2C2230"/>
+
+    <!-- Rum Color Palette -->
+    <SolidColorBrush x:Key="Rum50"  Color="#FFF9F8FB"/>
+    <SolidColorBrush x:Key="Rum100" Color="#FFF4F1F6"/>
+    <SolidColorBrush x:Key="Rum200" Color="#FFE7E1ED"/>
+    <SolidColorBrush x:Key="Rum300" Color="#FFD7CADD"/>
+    <SolidColorBrush x:Key="Rum400" Color="#FFBEA9C9"/>
+    <SolidColorBrush x:Key="Rum500" Color="#FFA186AF"/>
+    <SolidColorBrush x:Key="Rum600" Color="#FF846792"/>
+    <SolidColorBrush x:Key="Rum700" Color="#FF755A81"/>
+    <SolidColorBrush x:Key="Rum800" Color="#FF594563"/>
+    <SolidColorBrush x:Key="Rum900" Color="#FF4C3C53"/>
+    <SolidColorBrush x:Key="Rum950" Color="#FF2D2032"/>
+
+    <!-- Smoky Color Palette -->
+    <SolidColorBrush x:Key="Smoky50"  Color="#FFF5F5F9"/>
+    <SolidColorBrush x:Key="Smoky100" Color="#FFE8E9F1"/>
+    <SolidColorBrush x:Key="Smoky200" Color="#FFD7D8E6"/>
+    <SolidColorBrush x:Key="Smoky300" Color="#FFBBBBD5"/>
+    <SolidColorBrush x:Key="Smoky400" Color="#FF9A9CC0"/>
+    <SolidColorBrush x:Key="Smoky500" Color="#FF8181B0"/>
+    <SolidColorBrush x:Key="Smoky600" Color="#FF726FA1"/>
+    <SolidColorBrush x:Key="Smoky700" Color="#FF696392"/>
+    <SolidColorBrush x:Key="Smoky800" Color="#FF605A81"/>
+    <SolidColorBrush x:Key="Smoky900" Color="#FF4A4662"/>
+    <SolidColorBrush x:Key="Smoky950" Color="#FF312E3D"/>
+
+    <!-- Charade Color Palette -->
+    <SolidColorBrush x:Key="Charade50"  Color="#FFF5F6F9"/>
+    <SolidColorBrush x:Key="Charade100" Color="#FFE8E9F1"/>
+    <SolidColorBrush x:Key="Charade200" Color="#FFD7D9E6"/>
+    <SolidColorBrush x:Key="Charade300" Color="#FFBBBED5"/>
+    <SolidColorBrush x:Key="Charade400" Color="#FF9A9DC0"/>
+    <SolidColorBrush x:Key="Charade500" Color="#FF8283AF"/>
+    <SolidColorBrush x:Key="Charade600" Color="#FF7270A0"/>
+    <SolidColorBrush x:Key="Charade700" Color="#FF686491"/>
+    <SolidColorBrush x:Key="Charade800" Color="#FF5A5578"/>
+    <SolidColorBrush x:Key="Charade900" Color="#FF494761"/>
+    <SolidColorBrush x:Key="Charade950" Color="#FF302E3D"/>
+
+    <!-- Baltic Sea Color Palette -->
+    <SolidColorBrush x:Key="BalticSea50"  Color="#FFF7F7F8"/>
+    <SolidColorBrush x:Key="BalticSea100" Color="#FFEEEDEF"/>
+    <SolidColorBrush x:Key="BalticSea200" Color="#FFD8D7E0"/>
+    <SolidColorBrush x:Key="BalticSea300" Color="#FFB6B5C4"/>
+    <SolidColorBrush x:Key="BalticSea400" Color="#FF8D8CA4"/>
+    <SolidColorBrush x:Key="BalticSea500" Color="#FF6F6E89"/>
+    <SolidColorBrush x:Key="BalticSea600" Color="#FF5B5970"/>
+    <SolidColorBrush x:Key="BalticSea700" Color="#FF49485C"/>
+    <SolidColorBrush x:Key="BalticSea800" Color="#FF403E4E"/>
+    <SolidColorBrush x:Key="BalticSea900" Color="#FF383743"/>
+    <SolidColorBrush x:Key="BalticSea950" Color="#FF26252D"/>
+
+
+
+    <!-- ===== Color Tokens (Bootstrap-ish) ===== -->
+    <!-- Danger -->
+    <SolidColorBrush x:Key="BtnDangerBg"          Color="#FFDC3545"/>
+    <SolidColorBrush x:Key="BtnDangerBgHover"     Color="#FFC12D3B"/>
+    <SolidColorBrush x:Key="BtnDangerBgPressed"   Color="#FFA82330"/>
+    <SolidColorBrush x:Key="BtnDangerBorder"      Color="#FF8F1F2B"/>
+    <SolidColorBrush x:Key="BtnDangerForeground"  Color="#FFFFFFFF"/>
+
+    <!-- Warning -->
+    <SolidColorBrush x:Key="BtnWarningBg"         Color="#FFFFC107"/>
+    <SolidColorBrush x:Key="BtnWarningBgHover"    Color="#FFE0AD06"/>
+    <SolidColorBrush x:Key="BtnWarningBgPressed"  Color="#FFC69505"/>
+    <SolidColorBrush x:Key="BtnWarningBorder"     Color="#FF8F6E03"/>
+    <SolidColorBrush x:Key="BtnWarningForeground" Color="#FF111111"/>
+
+    <!-- Info -->
+    <SolidColorBrush x:Key="BtnInfoBg"            Color="#FF0DCAF0"/>
+    <SolidColorBrush x:Key="BtnInfoBgHover"       Color="#FF0CB6D8"/>
+    <SolidColorBrush x:Key="BtnInfoBgPressed"     Color="#FF0AA0BD"/>
+    <SolidColorBrush x:Key="BtnInfoBorder"        Color="#FF0A7F99"/>
+    <SolidColorBrush x:Key="BtnInfoForeground"    Color="#FF0B1F2A"/>
+
+    <!-- Success -->
+    <SolidColorBrush x:Key="BtnSuccessBg"         Color="#FF28A745"/>
+    <SolidColorBrush x:Key="BtnSuccessBgHover"    Color="#FF22913B"/>
+    <SolidColorBrush x:Key="BtnSuccessBgPressed"  Color="#FF1B7B32"/>
+    <SolidColorBrush x:Key="BtnSuccessBorder"     Color="#FF145B24"/>
+    <SolidColorBrush x:Key="BtnSuccessForeground" Color="#FFFFFFFF"/>
+
+    <!-- Common -->
+    <Color x:Key="BtnShadowColor">#22000000</Color>
+    <SolidColorBrush x:Key="BtnFocusRing"         Color="#803B82F6"/>
+
+
+
+    <!-- ==== Color & Brush Resources ==== -->
+    <!-- DropShadowEffect.Color requires Color -->
+    <Color x:Key="GhostBtnGlowColor">#6F3B82F6</Color>
+    <!-- hover glow -->
+    <Color x:Key="GhostBtnHoverBgColor">#50FFFFFF</Color>
+    <!-- faint white on hover -->
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="GhostBtnForeground" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="GhostBtnBorderBrush" Color="#80FFFFFF"/>
+    <SolidColorBrush x:Key="GhostBtnTransparent" Color="#00FFFFFF"/>
+    <SolidColorBrush x:Key="GhostBtnFocusRingBrush" Color="#803B82F6"/>
+    <SolidColorBrush x:Key="GhostBtnDisabledFgBrush" Color="#66FFFFFF"/>
+    <SolidColorBrush x:Key="GhostBtnHoverBgBrush" Color="{StaticResource GhostBtnHoverBgColor}"/>
+
+
+</ResourceDictionary>
