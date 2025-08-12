@@ -4,8 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrackStar"
+        xmlns:vm="clr-namespace:TrackStar.ViewModels"
+        xmlns:view="clr-namespace:TrackStar.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000">
+    <Window.DataContext>
+        <vm:MainViewModel></vm:MainViewModel>
+    </Window.DataContext>
+
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <view:HomeView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SearchViewModel}">
+            <view:SearchView />
+        </DataTemplate>
+    </Window.Resources>
+
+
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -26,12 +44,14 @@
             <Button Style="{StaticResource BtnGhost}" 
                     Content="Home"
                     BorderThickness="0"
-                    Height="60"/>
+                    Height="60"
+                    Command="{Binding NavigateHome}"/>
 
             <Button Style="{StaticResource BtnGhost}" 
                     Content="Search"
                     BorderThickness="0"
-                    Height="60"/>
+                    Height="60"
+                    Command="{Binding NavigateSearch}"/>
 
             <Button Style="{StaticResource BtnGhost}" 
                     Content="Saved"
@@ -53,7 +73,8 @@
 
         <Grid Grid.Column="2" 
               Background="{StaticResource BalticSea900}">
-            
+    
+            <ContentControl Content="{Binding CurrentViewModel}" />
         </Grid>
 
     </Grid>
