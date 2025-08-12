@@ -69,5 +69,63 @@ namespace TrackStar.Services
         }
 
 
+        public async Task<string> RequestWithRetry(string url, Dictionary<string, string>? headers = null)
+        {
+            int maxRetries = 3;
+            bool acquired = false;
+            int sleep = 1000; // 1 second
+
+            await semaphore.WaitAsync();
+            acquired = true;
+
+            try
+            {
+                for (int i = 0; i < maxRetries; i++)
+                {
+                    using var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+                    // Add headers if provided
+                    if (headers != null)
+                    {
+                        foreach (var header in headers)
+                        {
+                            request.Headers.TryAddWithoutValidation(header.Key, header.Value);
+                        }
+                    }
+
+                    var result = await httpClient.SendAsync(request);
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return await result.Content.ReadAsStringAsync();
+                    }
+
+                    // Log failed attempt
+                    var errorContent = await result.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Attempt {i + 1} failed: {result.StatusCode} - {errorContent}");
+
+                    // Last attempt? Throw.
+                    if (i == maxRetries - 1)
+                    {
+                        throw new HttpRequestException(
+                            $"Request failed after {maxRetries} attempts. " +
+                            $"Status: {result.StatusCode}, Response: {errorContent}"
+                        );
+                    }
+
+                    await Task.Delay(sleep);
+                    sleep = (int)(sleep * 1.5);
+                }
+
+                throw new HttpRequestException($"Request failed after {maxRetries} attempts."); // should never hit
+            }
+            finally
+            {
+                if (acquired)
+                    semaphore.Release();
+            }
+        }
+
+
     }
 }

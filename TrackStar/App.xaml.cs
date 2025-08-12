@@ -29,8 +29,8 @@ namespace TrackStar
         private void SetUpApiKey()
         {
 
-            string apiKey = Env.GetString("TMDB_API_KEY");
-            Environment.SetEnvironmentVariable("TMDB_API_KEY", apiKey);
+            string apiKey = Env.GetString("OMDB_API_KEY");
+            Environment.SetEnvironmentVariable("OMDB_API_KEY", apiKey);
         }
 
         protected void RegisterServices()
@@ -40,6 +40,8 @@ namespace TrackStar
 
             // add scope managements
             services.AddSingleton<NetworkService>();
+            services.AddSingleton<AppService>();
+            services.AddSingleton<MovieService>();
 
             // build service provider
             ServiceProvider provider = services.BuildServiceProvider();

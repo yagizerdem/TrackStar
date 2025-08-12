@@ -6,11 +6,11 @@
         xmlns:local="clr-namespace:TrackStar"
         xmlns:vm="clr-namespace:TrackStar.ViewModels"
         xmlns:view="clr-namespace:TrackStar.Views"
+        xmlns:viewCommon="clr-namespace:TrackStar.Views.Common"
+        xmlns:converters="clr-namespace:TrackStar.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000">
-    <Window.DataContext>
-        <vm:MainViewModel></vm:MainViewModel>
-    </Window.DataContext>
+
 
 
     <Window.Resources>
@@ -21,6 +21,8 @@
         <DataTemplate DataType="{x:Type vm:SearchViewModel}">
             <view:SearchView />
         </DataTemplate>
+
+        <converters:BooleanToVisibileCollapsedConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
 
@@ -31,6 +33,17 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        
+        <!--laoder-->
+        <viewCommon:LoadingPanel Grid.ColumnSpan="3"
+                         Grid.RowSpan="3"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Panel.ZIndex="100"
+                         Background="#80000000"
+                         Visibility="{Binding IsLoading , 
+                            Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
         <GridSplitter Grid.Column="1" 
                       Width="5" 

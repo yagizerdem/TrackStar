@@ -1,4 +1,6 @@
-﻿using TrackStar.Commands;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TrackStar.Commands;
+using TrackStar.Services;
 
 namespace TrackStar.ViewModels
 {
@@ -38,7 +40,11 @@ namespace TrackStar.ViewModels
         private ViewModelBase _searchViewModel;
 
         private ViewModelBase _savedViewModel;
+
+        private readonly AppService _appService;
         public MainViewModel() {
+
+            _appService = App.Services.GetRequiredService<AppService>();
 
             _homeViewModel = new HomeViewModel();
             _searchViewModel = new SearchViewModel();
@@ -48,6 +54,9 @@ namespace TrackStar.ViewModels
             NavigateSearch = new RelayCommand<object>(o => NavigateSearchExecute(), _ => true);
 
             CurrentViewModel = _homeViewModel;
+
+            // assing event callbacks
+            _appService.OnLoadStateChaged += _ => IsLoading = _appService.IsLoading;  
         }
 
 
