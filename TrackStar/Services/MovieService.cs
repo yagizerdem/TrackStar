@@ -124,5 +124,48 @@ namespace TrackStar.Services
             };
         }
 
+
+        public async Task<OmdbMovieDetailsDTO?> GetMovieDetailsByTitle(string title)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
+
+            string OMDB_API_KEY = Environment.GetEnvironmentVariable("OMDB_API_KEY")!;
+            if (string.IsNullOrEmpty(OMDB_API_KEY))
+                throw new InvalidOperationException("OMDB_API_KEY environment variable is not set.");
+
+            // &plot=full returns longer plot
+            string url = $"https://www.omdbapi.com/?apikey={OMDB_API_KEY}&t={Uri.EscapeDataString(title)}&plot=full";
+
+            string jsonResponse;
+            try
+            {
+                jsonResponse = await _networkService.RequestWithRetry(url);
+                if (string.IsNullOrWhiteSpace(jsonResponse))
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+
+            try
+            {
+                var details = JsonSerializer.Deserialize<OmdbMovieDetailsDTO>(jsonResponse, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                });
+
+                if (details?.Response?.Equals("True", StringComparison.OrdinalIgnoreCase) == true)
+                    return details;
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using TrackStar.Commands;
 using TrackStar.Models.DTO;
 using TrackStar.Services;
 
@@ -20,7 +22,12 @@ namespace TrackStar.ViewModels
         private readonly AppService _appService;
 
         private readonly MovieService _movieService;
-        
+
+        public ObservableCollection<OmdbMovieDTO> Movies { get; set; } = new(); 
+
+
+        // commands
+        public RelayCommand<OmdbMovieDTO> ShowDetailsCommand { get; set; }
 
         public HomeViewModel()
         {
@@ -28,6 +35,8 @@ namespace TrackStar.ViewModels
             _movieService = App.Services.GetRequiredService<MovieService>();
 
             Task.Run(async () => await FetchInitialData());
+
+            ShowDetailsCommand = new RelayCommand<OmdbMovieDTO>(async (obj) => await ShowDetailsExecute(obj), _ => true);
         }
     
         public async Task FetchInitialData()
@@ -52,9 +61,21 @@ namespace TrackStar.ViewModels
         public async Task GetMovieRecomendations()
         {
            OmdbSearchMovieResponse response =  await _movieService.GetRecommendations();
+            if (response.Search != null)
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    response.Search.ForEach(m => Movies.Add(m));
+                });
+            }
+        }
+
+
+        public async Task ShowDetailsExecute(OmdbMovieDTO  dto)
+        {
+            OmdbMovieDetailsDTO response = await _movieService.GetMovieDetailsByTitle(dto.Title);
 
             ;
         }
-
     }
 }

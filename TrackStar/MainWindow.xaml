@@ -9,7 +9,7 @@
         xmlns:viewCommon="clr-namespace:TrackStar.Views.Common"
         xmlns:converters="clr-namespace:TrackStar.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000">
+        Title="MainWindow" Height="900" Width="1200">
 
 
 

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:TrackStar.Converters"
              xmlns:viewCommon="clr-namespace:TrackStar.Views.Common"
+             xmlns:dto="clr-namespace:TrackStar.Models.DTO"
              xmlns:local="clr-namespace:TrackStar.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -14,6 +15,14 @@
     </UserControl.Resources>
     
     <Grid>
+
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="20"/>
+          <ColumnDefinition Width="250"/>
+      </Grid.ColumnDefinitions>
+
+
 
         <!--laoder-->
         <viewCommon:LoadingPanel Grid.ColumnSpan="10"
@@ -26,10 +35,120 @@
                            Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
 
 
-        <TextBlock Text="Home View" 
-                       Foreground="White" 
-                       FontSize="24" 
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"/>
+
+        <GridSplitter Grid.Column="1" 
+                      Width="20" 
+                      HorizontalAlignment="Left" 
+                      Background="White"
+                      VerticalAlignment="Stretch"/>
+
+
+        <Grid Grid.Column="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Disabled"
+                      Background="Transparent">
+
+                <ItemsControl x:Name="MoviesItemsControl" 
+                          ItemsSource="{Binding Movies}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" 
+                                   HorizontalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource MovieItemStyle}" 
+                                    Cursor="Hand">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Movie Poster -->
+                                    <Border Grid.Row="0" 
+                                        Background="#F0F0F0" 
+                                        CornerRadius="5"
+                                        Margin="5,5,5,0">
+                                        <Grid>
+                                            <!-- Poster Image -->
+                                            <Image Source="{Binding Poster}" 
+                                               Style="{StaticResource PosterImageStyle}"/>
+
+                                            <!-- Fallback for missing poster -->
+                                            <Grid x:Name="FallbackGrid" 
+                                              Visibility="Collapsed"
+                                              Background="#E0E0E0">
+                                                <TextBlock Text="No Image" 
+                                                       HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center"
+                                                       Foreground="#999999"
+                                                       FontSize="14"/>
+                                            </Grid>
+
+                                            <!-- Type Badge -->
+                                            <Border Background="#007ACC" 
+                                                CornerRadius="3"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Margin="0,5,5,0"
+                                                Padding="6,2">
+                                                <TextBlock Text="{Binding Type}" 
+                                                       Foreground="White"
+                                                       FontSize="9"
+                                                       FontWeight="Bold"
+                                                       />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Movie Details -->
+                                    <StackPanel Grid.Row="1" 
+                                            Margin="8,5,8,8">
+                                        <TextBox Text="{Binding Title}" 
+                             IsReadOnly="True" 
+                             BorderThickness="0"
+                             Background="Transparent"
+                             FontWeight="Bold"
+                             ToolTip="{Binding Title}"/>
+
+                                        <TextBox Text="{Binding Year}" 
+                             IsReadOnly="True" 
+                             BorderThickness="0"
+                             Background="Transparent"
+                             Foreground="Gray"/>
+
+                                        <TextBox Text="{Binding ImdbID}" 
+                             IsReadOnly="True" 
+                             BorderThickness="0"
+                             Background="Transparent"
+                             FontFamily="Consolas"
+                             Opacity="0.7"/>
+                                    </StackPanel>
+
+                                    <Button Grid.Row="2" 
+                                            Style="{StaticResource BtnSuccess}" 
+                                            Content="Details" 
+                                            Command="{Binding DataContext.ShowDetailsCommand, 
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"/>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            
+        </Grid>
+
+
+
     </Grid>
 </UserControl>
