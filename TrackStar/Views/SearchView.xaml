@@ -4,13 +4,319 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TrackStar.Views"
+             xmlns:converters="clr-namespace:TrackStar.Converters"
+             xmlns:viewCommon="clr-namespace:TrackStar.Views.Common"
+             xmlns:dto="clr-namespace:TrackStar.Models.DTO"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibileCollapsedConverter x:Key="BooleanToVisibileCollapsedConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+
+        <DropShadowEffect x:Key="CardShadow"
+                  BlurRadius="8"
+                  ShadowDepth="2"
+                  Opacity="0.15"/>
+    </UserControl.Resources>
+
+
+    
     <Grid>
-        <TextBlock Text="Search View" 
-                       Foreground="White" 
-                       FontSize="24" 
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"/>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+
+
+
+        <!--laoder-->
+        <viewCommon:LoadingPanel Grid.ColumnSpan="10"
+                         Grid.RowSpan="10"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Panel.ZIndex="100"
+                         Background="#80000000"
+                         Visibility="{Binding IsLoading , 
+                           Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
+
+
+
+
+        <Grid Background="#CC000000"
+      Panel.ZIndex="100"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+      Grid.ColumnSpan="10"
+      Grid.RowSpan="10"
+      Visibility="{Binding SelectedDetails, 
+          Converter={StaticResource NullToVisibilityConverter}}">
+
+
+            <!-- Center the card -->
+            <Grid HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+                <Border Width="600"
+                MaxHeight="700"
+                Padding="20"
+                Background="White"
+                CornerRadius="10"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                Effect="{DynamicResource ShadowEffect}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Title -->
+                            <TextBlock Text="{Binding SelectedDetails.Title}"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap" />
+
+                            <TextBlock Text="{Binding SelectedDetails.Year}"
+                               Foreground="Gray"
+                               FontStyle="Italic"
+                               Margin="0,0,0,10" />
+
+                            <!-- Poster -->
+                            <Image Source="{Binding SelectedDetails.Poster}"
+                           Height="300"
+                           Stretch="Uniform"
+                           Margin="0,0,0,10" />
+
+                            <!-- Plot -->
+                            <TextBlock Text="Plot"
+                               FontWeight="Bold"
+                               Margin="0,5,0,2"/>
+                            <TextBlock Text="{Binding SelectedDetails.Plot}"
+                               TextWrapping="Wrap" />
+
+                            <!-- Additional details -->
+                            <Separator Margin="0,10,0,10"/>
+                            <UniformGrid Columns="2" Rows="1" Margin="0,0,0,10">
+                                <TextBlock Text="Genre:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedDetails.Genre}" />
+
+                                <TextBlock Text="Director:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedDetails.Director}" />
+
+                                <TextBlock Text="Actors:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedDetails.Actors}" />
+
+                                <TextBlock Text="Runtime:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedDetails.Runtime}" />
+
+                                <TextBlock Text="Language:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedDetails.Language}" />
+
+                                <TextBlock Text="Awards:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedDetails.Awards}" />
+                            </UniformGrid>
+
+                            <!-- Ratings -->
+                            <TextBlock Text="Ratings"
+                               FontWeight="Bold"
+                               Margin="0,5,0,2"/>
+                            <ItemsControl ItemsSource="{Binding SelectedDetails.Ratings}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <TextBlock Text="{Binding Source}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Button Content="Cancel"
+                                    Style="{StaticResource BtnDanger}"
+                                    Command="{Binding CloseMoveiDetailsCommand}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+
+
+        <Grid Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <TextBox 
+                        Grid.Column="1"
+                        Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        FontSize="24" 
+                        FontWeight="Bold" 
+                        Margin="10"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"    
+                        Style="{StaticResource BootstrapTextBox }"/>
+
+                <Button 
+                        Grid.Column="2"
+                        Content="Search" 
+                        Command="{Binding SearchMoviesCommand}" 
+                        Margin="10"
+                        Style="{StaticResource BtnSuccess }"
+                        Visibility="{Binding IsMovieMode , 
+                         Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="3">
+                    <CheckBox Style="{StaticResource ModernCheckBox1}" 
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              IsChecked="{Binding IsMovieMode}"/>
+                    <Label HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           Content="Switch Search Mode"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+        <StackPanel Grid.Row="1">
+            <Border BorderBrush="#212529" BorderThickness="0 0 0 1" Padding="0 0 0 5">
+                <StackPanel>
+                    <TextBlock Text="Movies"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Foreground="#212529"
+                        Visibility="{Binding IsMovieMode, 
+                            Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
+
+                    <TextBlock Text="Series"
+                                FontSize="24"
+                                FontWeight="Bold"
+                                Margin="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Foreground="#212529"
+                                Visibility="{Binding IsSeriesMode, 
+                                    Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
+                </StackPanel>
+            </Border>
+
+
+        </StackPanel>
+
+        <ListView ItemsSource="{Binding SearchResults}"
+                  Visibility="{Binding IsMovieMode , Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
+          Margin="10"
+          BorderThickness="0"
+          Background="Transparent"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          Grid.Row="2">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type dto:OmdbMovieDTO}">
+                    <Border BorderBrush="#dee2e6"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="10"
+            Background="White"
+            HorizontalAlignment="Stretch"
+                            Cursor="Hand"
+            Effect="{DynamicResource CardShadow}">
+                        <StackPanel>
+                            <DockPanel LastChildFill="True">
+                                <!-- Movie Poster -->
+                                <Image Source="{Binding Poster}"
+Width="100"
+Height="150"
+Stretch="UniformToFill"
+Margin="0,0,10,0"
+DockPanel.Dock="Left"/>
+
+                                <!-- Movie Info -->
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBox Text="{Binding Title}"
+      FontSize="18"
+      FontWeight="Bold"
+      Foreground="#212529"
+      IsReadOnly="True"
+      BorderThickness="0"
+      Background="Transparent"
+      Padding="0"
+      IsReadOnlyCaretVisible="False"/>
+
+                                    <TextBox Text="{Binding Year}"
+      FontSize="14"
+      Foreground="#6c757d"
+      IsReadOnly="True"
+      BorderThickness="0"
+      Background="Transparent"
+      Padding="0"
+      IsReadOnlyCaretVisible="False"/>
+
+                                    <TextBox Text="{Binding Type}"
+      FontSize="14"
+      Foreground="#0d6efd"
+      IsReadOnly="True"
+      BorderThickness="0"
+      Background="Transparent"
+      Padding="0"
+      IsReadOnlyCaretVisible="False"/>
+                                </StackPanel>
+                            </DockPanel>
+
+                            <Button Style="{StaticResource BtnInfo}" 
+                                            Command="{Binding DataContext.SearchDetailsOfMovieCommand, 
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            MaxWidth="300"
+                                            Margin="20"
+                                            Content="Show Details"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+
+            <!-- Remove selection highlight -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="20"/>
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+
+        <Button Command="{Binding LoadMoreMoviesCommand}" 
+                Grid.Row="3"
+                Content="Load More"
+                Style="{StaticResource BtnInfo}"
+                MaxWidth="250"
+                Cursor="Hand"
+                MaxHeight="80"
+                Visibility="{Binding IsMovieMode, Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
+                />
+
     </Grid>
 </UserControl>

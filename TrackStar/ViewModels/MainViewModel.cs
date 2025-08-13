@@ -46,14 +46,14 @@ namespace TrackStar.ViewModels
 
             _appService = App.Services.GetRequiredService<AppService>();
 
-            _homeViewModel = new HomeViewModel();
+            //_homeViewModel = new HomeViewModel();
             _searchViewModel = new SearchViewModel();
 
 
             NavigateHome = new RelayCommand<object>(o => NavigateHomeExecute(), _ => true);
             NavigateSearch = new RelayCommand<object>(o => NavigateSearchExecute(), _ => true);
 
-            CurrentViewModel = _homeViewModel;
+            CurrentViewModel = _searchViewModel;
 
             // assing event callbacks
             _appService.OnLoadStateChaged += _ => IsLoading = _appService.IsLoading;  

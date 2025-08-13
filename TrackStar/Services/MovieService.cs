@@ -167,5 +167,83 @@ namespace TrackStar.Services
             }
         }
 
+
+        public async Task<OmdbSearchMovieResponse> SearchMoviesByTitleAsync(string title, int page)
+        {
+            string OMDB_API_KEY = Environment.GetEnvironmentVariable("OMDB_API_KEY")!;
+            if (string.IsNullOrEmpty(OMDB_API_KEY))
+                throw new InvalidOperationException("OMDB_API_KEY environment variable is not set.");
+
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
+
+            // build OMDb API search URL
+            string url = $"https://www.omdbapi.com/?apikey={OMDB_API_KEY}&s={Uri.EscapeDataString(title)}&type=movie&page={page}";
+
+            string jsonResponse;
+            try
+            {
+                jsonResponse = await _networkService.RequestWithRetry(url);
+                if (string.IsNullOrWhiteSpace(jsonResponse))
+                    return new OmdbSearchMovieResponse { Response = "False", Search = new List<OmdbMovieDTO>(), TotalResults = "0" };
+            }
+            catch
+            {
+                return new OmdbSearchMovieResponse { Response = "False", Search = new List<OmdbMovieDTO>(), TotalResults = "0" };
+            }
+
+            OmdbSearchMovieResponse? result;
+            try
+            {
+                result = JsonSerializer.Deserialize<OmdbSearchMovieResponse>(jsonResponse);
+            }
+            catch
+            {
+                return new OmdbSearchMovieResponse { Response = "False", Search = new List<OmdbMovieDTO>(), TotalResults = "0" };
+            }
+
+            if (result?.Response?.Equals("True", StringComparison.OrdinalIgnoreCase) != true ||
+                result.Search == null ||
+                result.Search.Count == 0)
+            {
+                return new OmdbSearchMovieResponse { Response = "False", Search = new List<OmdbMovieDTO>(), TotalResults = "0" };
+            }
+
+            // Deduplicate by IMDb ID
+            var uniqueMovies = new Dictionary<string, OmdbMovieDTO>();
+            var uniqueTitles = new HashSet<string>();
+
+            foreach (var movie in result.Search)
+            {
+                if (movie == null || string.IsNullOrWhiteSpace(movie.Title))
+                    continue;
+
+                if (!string.IsNullOrWhiteSpace(movie.ImdbID))
+                {
+                    if (!uniqueMovies.ContainsKey(movie.ImdbID))
+                    {
+                        uniqueMovies[movie.ImdbID] = movie;
+                        uniqueTitles.Add(movie.Title.ToLowerInvariant());
+                    }
+                }
+                else
+                {
+                    string lowerTitle = movie.Title.ToLowerInvariant();
+                    if (!uniqueTitles.Contains(lowerTitle))
+                    {
+                        uniqueMovies[movie.Title] = movie;
+                        uniqueTitles.Add(lowerTitle);
+                    }
+                }
+            }
+
+            return new OmdbSearchMovieResponse
+            {
+                Response = uniqueMovies.Count > 0 ? "True" : "False",
+                Search = uniqueMovies.Values.ToList(),
+                TotalResults = uniqueMovies.Count.ToString()
+            };
+        }
+
     }
 }
