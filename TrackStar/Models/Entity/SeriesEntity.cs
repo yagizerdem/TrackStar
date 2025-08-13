@@ -30,5 +30,7 @@ namespace TrackStar.Models.Entity
         public string Type { get; set; }
         public string TotalSeasons { get; set; }
         public string Response { get; set; }
+        public bool IsStarred { get; set; } = false;
+        public bool IsInWatchlist { get; set; } = false;
     }
 }

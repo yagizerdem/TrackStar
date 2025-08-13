@@ -406,6 +406,16 @@ DockPanel.Dock="Left"/>
                                             MaxWidth="300"
                                             Margin="20"
                                             Content="Show Details"/>
+                            <Button Style="{StaticResource BtnSuccess}"
+                                    Command="{Binding DataContext.StarMovieCommand, 
+                                            RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                     CommandParameter="{Binding}"
+                                    MaxWidth="300"
+                                    Margin="20"
+                                    Content="Star Movie"
+                                    HorizontalAlignment="Left">
+                                
+                            </Button>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

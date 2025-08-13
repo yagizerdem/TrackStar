@@ -33,6 +33,8 @@ namespace TrackStar.Models.Entity
         public string Production { get; set; }
         public string Website { get; set; }
         public string Response { get; set; }
+        public bool IsStarred { get; set; } = false;    
+        public bool IsInWatchlist { get; set; } = false;    
     }
 
 

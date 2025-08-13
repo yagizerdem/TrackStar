@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using TrackStar.Commands;
 using TrackStar.Models.DTO;
 using TrackStar.Services;
+using TrackStar.Utils;
 
 namespace TrackStar.ViewModels
 {
@@ -91,6 +92,8 @@ namespace TrackStar.ViewModels
 
         public RelayCommand<object> CloseSeriesDetailsCommand { get; set; }
 
+        public RelayCommand<object> StarMovieCommand { get; set; }
+
         public ObservableCollection<OmdbMovieDTO> SearchMovieResults { get; set; } = new ObservableCollection<OmdbMovieDTO>();
 
         public ObservableCollection<OmdbSeriesDTO> SearchSeriesResults { get; set; } = new ObservableCollection<OmdbSeriesDTO>();
@@ -111,6 +114,8 @@ namespace TrackStar.ViewModels
             SearchDetailsOfSeriesCommand = new RelayCommand<object>(series => SearchDetailsOfSeriesCommandExecute((OmdbSeriesDTO)series), _ => !IsLoading &&  SearchSeriesResults.Count > 0);
             LoadMoreSeriesCommand = new RelayCommand<object>(_ => LoadMoreSeriesCommandExecute(), _ => !IsLoading && SearchSeriesResults.Count > 0);
             CloseSeriesDetailsCommand = new RelayCommand<object>(_ => SelectedSeriesDetails = null, _ => true);
+            StarMovieCommand = new RelayCommand<object>(movie => StarMovieCommandExecute((OmdbMovieDTO)movie), movie => movie is OmdbMovieDTO);
+
         }
 
         async public void SearchMoviesCommandExecute()
@@ -125,7 +130,11 @@ namespace TrackStar.ViewModels
 
                 response.Search?.ForEach(m => SearchMovieResults.Add(m));
             }
-            catch(Exception ex)
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error executing search command: {ex.Message}");
             }
@@ -145,6 +154,10 @@ namespace TrackStar.ViewModels
                 {
                     SelectedDetails = response;
                 }
+            }
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
             }
             catch (Exception ex)
             {
@@ -167,6 +180,10 @@ namespace TrackStar.ViewModels
 
                 response.Search?.ForEach(m => SearchMovieResults.Add(m));
             }
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading more movies: {ex.Message}");
@@ -188,6 +205,10 @@ namespace TrackStar.ViewModels
 
                 resul.ForEach(x => SearchSeriesResults.Add(x));
             }
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error executing search command: {ex.Message}");
@@ -206,7 +227,12 @@ namespace TrackStar.ViewModels
                 IsLoading = true;
                 OmdbSeriesDetailsDTO response =  await _seriesService.GetSeriesDetail(dto.Title);
                 SelectedSeriesDetails = response;
-            }catch(Exception ex)
+            }
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching series details: {ex.Message}");
             }
@@ -226,6 +252,10 @@ namespace TrackStar.ViewModels
 
                 resul.ForEach(x => SearchSeriesResults.Add(x));
             }
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading more series: {ex.Message}");
@@ -234,6 +264,29 @@ namespace TrackStar.ViewModels
             {
                 IsLoading = false;
             }
+        }
+ 
+        async public void StarMovieCommandExecute(OmdbMovieDTO dto)
+        {
+            try
+            {
+                IsLoading = true;
+                // fetch movie details from api
+                //OmdbMovieDetailsDTO details = await _movieService.GetMovieDetailsByTitle(dto.Title);
+            }
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch(Exception ex)
+            {
+                ShowToast.ShowError("Error occured");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+
         }
     }
 }

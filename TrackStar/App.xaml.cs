@@ -1,4 +1,5 @@
-﻿using DotNetEnv;
+﻿using AutoMapper;
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +18,7 @@ namespace TrackStar
 
         public static IServiceProvider Services { get; private set; } = null!;
 
+        public static IMapper mapper;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -54,6 +56,11 @@ namespace TrackStar
                 options.UseSqlite($"Data Source={dbPath}");
             });
 
+
+            // add mapper config
+            MapperConfiguration _config = ConfigureAutoMapper.Configure();
+            mapper = _config.CreateMapper();
+            
 
             // build service provider
             ServiceProvider provider = services.BuildServiceProvider();
