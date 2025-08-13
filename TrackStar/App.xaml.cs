@@ -1,6 +1,10 @@
 ﻿using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
 using System.Windows;
+using TrackStar.DataContext;
 using TrackStar.Services;
 
 namespace TrackStar
@@ -19,8 +23,8 @@ namespace TrackStar
             base.OnStartup(e);
             Env.Load(); // load .api keys from file
 
-            SetUpApiKey(); 
-
+            SetUpApiKey();
+            SetUpDb();
 
             RegisterServices(); 
         }
@@ -33,7 +37,7 @@ namespace TrackStar
             Environment.SetEnvironmentVariable("OMDB_API_KEY", apiKey);
         }
 
-        protected void RegisterServices()
+        private void RegisterServices()
         {
             // Register your services here
             ServiceCollection services = new();
@@ -42,10 +46,31 @@ namespace TrackStar
             services.AddSingleton<NetworkService>();
             services.AddSingleton<AppService>();
             services.AddSingleton<MovieService>();
+            services.AddSingleton<SeriesService>();
+
+            services.AddDbContext<AppDataContext>(options =>
+            {
+                var dbPath = Environment.GetEnvironmentVariable("DB_PATH");
+                options.UseSqlite($"Data Source={dbPath}");
+            });
+
 
             // build service provider
             ServiceProvider provider = services.BuildServiceProvider();
             Services = provider;
+        }
+
+        private void SetUpDb()
+        {
+            string root = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string DB_PATH = System.IO.Path.Combine(root, "TrackStar", "trackstar.db");
+
+            if (!File.Exists(DB_PATH))
+            {
+                File.Create(DB_PATH).Close();   
+            }
+
+            Environment.SetEnvironmentVariable("DB_PATH", DB_PATH); 
         }
 
     }

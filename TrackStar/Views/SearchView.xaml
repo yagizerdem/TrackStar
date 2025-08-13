@@ -45,7 +45,7 @@
 
 
 
-
+        <!--selected movei details card-->
         <Grid Background="#CC000000"
       Panel.ZIndex="100"
       HorizontalAlignment="Stretch"
@@ -139,6 +139,121 @@
             </Grid>
         </Grid>
 
+        <!-- Selected series details card -->
+        <Grid Background="#CC000000"
+      Panel.ZIndex="100"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+      Grid.ColumnSpan="10"
+      Grid.RowSpan="10"
+      Visibility="{Binding SelectedSeriesDetails, Converter={StaticResource NullToVisibilityConverter}}">
+
+            <!-- Center the card -->
+            <Grid HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+                <Border Width="600"
+                MaxHeight="700"
+                Padding="20"
+                Background="White"
+                CornerRadius="10"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                >
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Title -->
+                            <TextBlock Text="{Binding SelectedSeriesDetails.Title}"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               TextWrapping="Wrap" />
+
+                            <TextBlock Text="{Binding SelectedSeriesDetails.Year}"
+                               Foreground="Gray"
+                               FontStyle="Italic"
+                               Margin="0,0,0,10" />
+
+                            <!-- Poster -->
+                            <Image Source="{Binding SelectedSeriesDetails.Poster}"
+                           Height="300"
+                           Stretch="Uniform"
+                           Margin="0,0,0,10" />
+
+                            <!-- Plot -->
+                            <TextBlock Text="Plot"
+                               FontWeight="Bold"
+                               Margin="0,5,0,2"/>
+                            <TextBlock Text="{Binding SelectedSeriesDetails.Plot}"
+                               TextWrapping="Wrap" />
+
+                            <!-- Additional details -->
+                            <Separator Margin="0,10,0,10"/>
+                            <UniformGrid Columns="2" Margin="0,0,0,10">
+                                <TextBlock Text="Genre:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Genre}" />
+
+                                <TextBlock Text="Director:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Director}" />
+
+                                <TextBlock Text="Writer:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Writer}" />
+
+                                <TextBlock Text="Actors:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Actors}" />
+
+                                <TextBlock Text="Runtime:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Runtime}" />
+
+                                <TextBlock Text="Released:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Released}" />
+
+                                <TextBlock Text="Language:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Language}" />
+
+                                <TextBlock Text="Country:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Country}" />
+
+                                <TextBlock Text="Awards:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Awards}" />
+
+                                <TextBlock Text="Total Seasons:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.TotalSeasons}" />
+
+                                <TextBlock Text="IMDb Rating:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.ImdbRating}" />
+
+                                <TextBlock Text="IMDb Votes:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.ImdbVotes}" />
+
+                                <TextBlock Text="Metascore:" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding SelectedSeriesDetails.Metascore}" />
+                            </UniformGrid>
+
+                            <!-- Ratings -->
+                            <TextBlock Text="Ratings"
+                               FontWeight="Bold"
+                               Margin="0,5,0,2"/>
+                            <ItemsControl ItemsSource="{Binding SelectedSeriesDetails.Ratings}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Source}" FontWeight="Bold" Margin="0,0,5,0"/>
+                                            <TextBlock Text="{Binding Value}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Button Content="Cancel"
+                            Style="{StaticResource BtnDanger}"
+                            Command="{Binding CloseSeriesDetailsCommand}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+
+
+
 
         <Grid Grid.Row="0">
             <Grid>
@@ -168,6 +283,16 @@
                         Margin="10"
                         Style="{StaticResource BtnSuccess }"
                         Visibility="{Binding IsMovieMode , 
+                         Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
+
+
+                <Button 
+                        Grid.Column="2"
+                        Content="Search" 
+                        Command="{Binding SearchSeriesCommand}" 
+                        Margin="10"
+                        Style="{StaticResource BtnSuccess }"
+                        Visibility="{Binding IsSeriesMode , 
                          Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
 
                 <StackPanel Orientation="Horizontal" Grid.Column="3">
@@ -214,7 +339,8 @@
 
         </StackPanel>
 
-        <ListView ItemsSource="{Binding SearchResults}"
+        <!--movie lis view-->
+        <ListView ItemsSource="{Binding SearchMovieResults}"
                   Visibility="{Binding IsMovieMode , Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
           Margin="10"
           BorderThickness="0"
@@ -307,6 +433,102 @@ DockPanel.Dock="Left"/>
             </ListView.ItemContainerStyle>
         </ListView>
 
+        
+        <!--series list view-->
+        <ListView ItemsSource="{Binding SearchSeriesResults}"
+          Visibility="{Binding IsSeriesMode, Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
+          Margin="10"
+          BorderThickness="0"
+          Background="Transparent"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          Grid.Row="2">
+
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type dto:OmdbSeriesDTO}">
+                    <Border BorderBrush="#dee2e6"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="10"
+                    Background="White"
+                    HorizontalAlignment="Stretch"
+                    Cursor="Hand"
+                    Effect="{DynamicResource CardShadow}">
+                        <StackPanel>
+                            <DockPanel LastChildFill="True">
+                                <!-- Series Poster -->
+                                <Image Source="{Binding Poster}"
+                               Width="100"
+                               Height="150"
+                               Stretch="UniformToFill"
+                               Margin="0,0,10,0"
+                               DockPanel.Dock="Left"/>
+
+                                <!-- Series Info -->
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBox Text="{Binding Title}"
+                                     FontSize="18"
+                                     FontWeight="Bold"
+                                     Foreground="#212529"
+                                     IsReadOnly="True"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Padding="0"
+                                     IsReadOnlyCaretVisible="False"/>
+
+                                    <TextBox Text="{Binding Year}"
+                                     FontSize="14"
+                                     Foreground="#6c757d"
+                                     IsReadOnly="True"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Padding="0"
+                                     IsReadOnlyCaretVisible="False"/>
+
+                                    <TextBox Text="{Binding Type}"
+                                     FontSize="14"
+                                     Foreground="#0d6efd"
+                                     IsReadOnly="True"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     Padding="0"
+                                     IsReadOnlyCaretVisible="False"/>
+                                </StackPanel>
+                            </DockPanel>
+
+                            <Button Style="{StaticResource BtnInfo}" 
+                            Command="{Binding DataContext.SearchDetailsOfSeriesCommand, 
+                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            CommandParameter="{Binding}"
+                            MaxWidth="300"
+                            Margin="20"
+                            Content="Show Details"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <!-- Remove selection highlight -->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="20"/>
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+
 
         <Button Command="{Binding LoadMoreMoviesCommand}" 
                 Grid.Row="3"
@@ -318,5 +540,15 @@ DockPanel.Dock="Left"/>
                 Visibility="{Binding IsMovieMode, Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
                 />
 
+
+        <Button Command="{Binding LoadMoreSeriesCommand}" 
+                Grid.Row="3"
+                Content="Load More"
+                Style="{StaticResource BtnInfo}"
+                MaxWidth="250"
+                Cursor="Hand"
+                MaxHeight="80"
+                Visibility="{Binding IsSeriesMode, Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
+                />
     </Grid>
 </UserControl>
