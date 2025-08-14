@@ -704,5 +704,164 @@
     </Style>
 
 
+    <Style x:Key="BtnToggleSuccess" TargetType="ToggleButton">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#198754"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="BorderBrush" Value="#198754"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="border"
+                        CornerRadius="4"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#157347"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#146c43"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#146c43"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#0f5132"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#0f5132"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#0f5132"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#adb5bd"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="#adb5bd"/>
+                            <Setter Property="Foreground" Value="#6c757d"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="BtnTogglePrimary" TargetType="ToggleButton">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#0d6efd"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="BorderBrush" Value="#0d6efd"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="border"
+                        CornerRadius="4"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#0b5ed7"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#0a58ca"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#0a58ca"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#084298"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#084298"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#084298"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#adb5bd"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="#adb5bd"/>
+                            <Setter Property="Foreground" Value="#6c757d"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!-- Custom ScrollViewer Style (Uses your existing Slider resources) -->
+    <Style x:Key="ModernScrollViewerVertical" TargetType="ScrollViewer">
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Content -->
+                        <ScrollContentPresenter Grid.Column="0" Grid.Row="0"/>
+
+                        <!-- Vertical ScrollBar (Uses your ModernSlider thumb/track styles) -->
+                        <ScrollBar x:Name="PART_VerticalScrollBar"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               Orientation="Vertical"
+                               ViewportSize="{TemplateBinding ViewportHeight}"
+                               Maximum="{TemplateBinding ScrollableHeight}"
+                               Value="{TemplateBinding VerticalOffset}"
+                               Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}">
+                            <ScrollBar.Style>
+                                <Style TargetType="ScrollBar">
+                                    <Setter Property="Width" Value="8"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ScrollBar">
+                                                <Grid Background="Transparent" SnapsToDevicePixels="True">
+                                                    <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                                        <Track.DecreaseRepeatButton>
+                                                            <RepeatButton Style="{StaticResource SliderTrackDecreaseButtonStyle}"/>
+                                                        </Track.DecreaseRepeatButton>
+                                                        <Track.IncreaseRepeatButton>
+                                                            <RepeatButton Style="{StaticResource SliderTrackIncreaseButtonStyle}"/>
+                                                        </Track.IncreaseRepeatButton>
+                                                        <Track.Thumb>
+                                                            <Thumb Style="{StaticResource ModernSliderThumb}"/>
+                                                        </Track.Thumb>
+                                                    </Track>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ScrollBar.Style>
+                        </ScrollBar>
+
+             
+                        <ScrollBar x:Name="PART_HorizontalScrollBar"
+                               Grid.Column="0"
+                               Grid.Row="1"
+                               Orientation="Horizontal"
+                               ViewportSize="{TemplateBinding ViewportWidth}"
+                               Maximum="{TemplateBinding ScrollableWidth}"
+                               Value="{TemplateBinding HorizontalOffset}"
+                               Visibility="Collapsed"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

@@ -8,12 +8,14 @@
              xmlns:converters="clr-namespace:TrackStar.Converters"
              xmlns:viewCommon="clr-namespace:TrackStar.Views.Common"
              xmlns:dto="clr-namespace:TrackStar.Models.DTO"
+             xmlns:entity="clr-namespace:TrackStar.Models.Entity"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <converters:BooleanToVisibileCollapsedConverter x:Key="BooleanToVisibileCollapsedConverter"/>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converters:NullToVisibilityReversedConverter x:Key="NullToVisibilityReversedConverter"/>
+        <converters:MultiBoolToVisibilityConverter x:Key="MultiBoolToVisibilityConverter"/>
 
     </UserControl.Resources>
 
@@ -26,6 +28,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
 
@@ -292,5 +295,277 @@
             </StackPanel>
         </Grid>
         
+        <!--movie list view-->
+
+        <Grid Grid.Row="4">
+            <Grid.Visibility>
+                <MultiBinding Converter="{StaticResource MultiBoolToVisibilityConverter}" ConverterParameter="AND">
+                    <Binding Path="IsListView"/>
+                </MultiBinding>
+            </Grid.Visibility>
+            <ListView ItemsSource="{Binding SavedMovies}"
+              Margin="10"
+              Background="Transparent"
+              BorderThickness="0"
+              ScrollViewer.VerticalScrollBarVisibility="Auto"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+              ScrollViewer.CanContentScroll="False">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type entity:MovieEntity}">
+                        <Border CornerRadius="8"
+                        Padding="12"
+                        Background="White"
+                        BorderBrush="#DEE2E6"
+                        BorderThickness="1"
+                        Effect="{DynamicResource CardShadow}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Column="0"
+                               Width="90" 
+                               Height="135"
+                               Stretch="UniformToFill"
+                               Source="{Binding Poster}"
+                               SnapsToDevicePixels="True"/>
+
+                                <!-- Main Content Column -->
+                                <Grid Grid.Column="2" VerticalAlignment="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0"
+                                       Text="{Binding Title}"
+                                       FontSize="18" 
+                                       FontWeight="Bold"
+                                       Foreground="#212529"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"/>
+
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Year}" Foreground="#6C757D"/>
+                                        <TextBlock Text="•" Margin="4,0" Foreground="#ADB5BD"/>
+                                        <TextBlock Text="{Binding Genre}" Foreground="#6C757D"/>
+                                        <TextBlock Text="•" Margin="4,0" Foreground="#ADB5BD"/>
+                                        <TextBlock Text="{Binding Runtime}" Foreground="#6C757D"/>
+                                    </StackPanel>
+
+                                    <ScrollViewer Grid.Row="2" 
+                                          VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          Margin="0,4,0,0">
+                                        <TextBlock Text="{Binding Plot}"
+                                           TextWrapping="Wrap"
+                                           Foreground="#495057"
+                                           MaxHeight="48"
+                                           TextTrimming="WordEllipsis"/>
+                                    </ScrollViewer>
+
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,6,0,0">
+                                        <TextBlock Text="IMDb:" Foreground="#6C757D"/>
+                                        <TextBlock Text="{Binding ImdbRating}" FontWeight="SemiBold" Margin="2,0,8,0"/>
+                                        <TextBlock Text="Votes:" Foreground="#6C757D"/>
+                                        <TextBlock Text="{Binding ImdbVotes}" Margin="2,0,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Buttons Column -->
+                                <StackPanel Grid.Column="3" 
+                                    VerticalAlignment="Center"
+                                    MinWidth="110"
+                                    Margin="12,0,0,0">
+                                    <Button Style="{StaticResource BtnInfo}"
+                                    Content="Details"
+                                    Command="{Binding DataContext.SearchDetailsOfMovieCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}" 
+                                    Margin="0,0,0,8"/>
+                                    <ToggleButton Content="★ Favourites"
+                                          IsChecked="{Binding IsStarred, Mode=TwoWay}"
+                                          Style="{StaticResource BtnToggleSuccess}"
+                                          Margin="0,0,0,8"/>
+                                    <ToggleButton Content="Watchlist"
+                                          IsChecked="{Binding IsInWatchlist, Mode=TwoWay}"
+                                          Style="{StaticResource BtnTogglePrimary}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Margin" Value="0,0,0,12"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <ContentPresenter/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.Resources>
+                    <Style TargetType="ScrollBar">
+                        <Setter Property="Width" Value="8"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ScrollBar">
+                                    <Grid Background="Transparent" SnapsToDevicePixels="True">
+                                        <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Style="{StaticResource SliderTrackDecreaseButtonStyle}" />
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton Style="{StaticResource SliderTrackIncreaseButtonStyle}" />
+                                            </Track.IncreaseRepeatButton>
+                                            <Track.Thumb>
+                                                <Thumb Style="{StaticResource ModernSliderThumb}"/>
+                                            </Track.Thumb>
+                                        </Track>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.Resources>
+            </ListView>
+        </Grid>
+
+
+        <Grid Grid.Row="4">
+            <Grid.Visibility>
+                <MultiBinding Converter="{StaticResource MultiBoolToVisibilityConverter}" ConverterParameter="AND">
+                    <Binding Path="IsGridView"/>
+                </MultiBinding>
+            </Grid.Visibility>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled"
+                  Padding="10"
+                          Style="{StaticResource ModernScrollViewerVertical}">
+                <ItemsControl ItemsSource="{Binding SavedMovies}"
+                  Background="Transparent">
+                    <!-- ItemsPanel: WrapPanel for horizontal flow -->
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type entity:MovieEntity}">
+                            <Border CornerRadius="8"
+                        Padding="12"
+                        Background="White"
+                        BorderBrush="#DEE2E6"
+                        BorderThickness="1"
+                        Effect="{DynamicResource CardShadow}"
+                        Width="400"  
+                            Margin="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Poster Image -->
+                                    <Image Grid.Column="0"
+                               Width="90" 
+                               Height="135"
+                               Stretch="UniformToFill"
+                               Source="{Binding Poster}"
+                               SnapsToDevicePixels="True"/>
+
+                                    <!-- Main Content -->
+                                    <Grid Grid.Column="2" VerticalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0"
+                                       Text="{Binding Title}"
+                                       FontSize="18" 
+                                       FontWeight="Bold"
+                                       Foreground="#212529"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"/>
+
+                                        <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Year}" Foreground="#6C757D"/>
+                                            <TextBlock Text="•" Margin="4,0" Foreground="#ADB5BD"/>
+                                            <TextBlock Text="{Binding Genre}" Foreground="#6C757D"/>
+                                            <TextBlock Text="•" Margin="4,0" Foreground="#ADB5BD"/>
+                                            <TextBlock Text="{Binding Runtime}" Foreground="#6C757D"/>
+                                        </StackPanel>
+
+                                        <ScrollViewer Grid.Row="2" 
+                                          VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          Margin="0,4,0,0">
+                                            <TextBlock Text="{Binding Plot}"
+                                           TextWrapping="Wrap"
+                                           Foreground="#495057"
+                                           MaxHeight="48"
+                                           TextTrimming="WordEllipsis"/>
+                                        </ScrollViewer>
+
+                                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,6,0,0">
+                                            <TextBlock Text="IMDb:" Foreground="#6C757D"/>
+                                            <TextBlock Text="{Binding ImdbRating}" FontWeight="SemiBold" Margin="2,0,8,0"/>
+                                            <TextBlock Text="Votes:" Foreground="#6C757D"/>
+                                            <TextBlock Text="{Binding ImdbVotes}" Margin="2,0,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Buttons Column -->
+                                    <StackPanel Grid.Column="3" 
+                                    VerticalAlignment="Center"
+                                    MinWidth="110"
+                                    Margin="12,0,0,0">
+                                        <Button Style="{StaticResource BtnInfo}"
+                                    Content="Details"
+                                    Command="{Binding DataContext.SearchDetailsOfMovieCommand,
+                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}" 
+                                    Margin="0,0,0,8"/>
+                                        <ToggleButton Content="★ Favourite"
+                                          IsChecked="{Binding IsStarred, Mode=TwoWay}"
+                                          Style="{StaticResource BtnToggleSuccess}"
+                                          Margin="0,0,0,8"/>
+                                        <ToggleButton Content="Watchlist"
+                                          IsChecked="{Binding IsInWatchlist, Mode=TwoWay}"
+                                          Style="{StaticResource BtnTogglePrimary}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </ScrollViewer>
+        </Grid>
+
+
+
     </Grid>
 </UserControl>
