@@ -21,7 +21,7 @@ namespace TrackStar.ViewModels
 
         public RelayCommand<object> NavigateSaved { get; set; }
 
-        
+
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel
         {
@@ -48,12 +48,14 @@ namespace TrackStar.ViewModels
 
             //_homeViewModel = new HomeViewModel();
             _searchViewModel = new SearchViewModel();
+            _savedViewModel = new SavedViewModel();
 
 
             NavigateHome = new RelayCommand<object>(o => NavigateHomeExecute(), _ => true);
             NavigateSearch = new RelayCommand<object>(o => NavigateSearchExecute(), _ => true);
+            NavigateSaved = new RelayCommand<object>(o => CurrentViewModel = _savedViewModel, _ => true);
 
-            CurrentViewModel = _searchViewModel;
+            CurrentViewModel = _savedViewModel;
 
             // assing event callbacks
             _appService.OnLoadStateChaged += _ => IsLoading = _appService.IsLoading;  

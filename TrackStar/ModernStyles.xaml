@@ -540,4 +540,169 @@
     </Style>
 
 
+    <!--ModernComboBox-->
+    <Style x:Key="ModernComboBox" TargetType="ComboBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#2C2C2C"/>
+        <Setter Property="BorderBrush" Value="#444"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6"/>
+                        <ToggleButton x:Name="ToggleButton"
+                                  Grid.Column="2"
+                                  Focusable="False"
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClickMode="Press"
+                                  Background="Transparent"
+                                  BorderThickness="0">
+                            <Path x:Name="Arrow"
+                              Data="M 0 0 L 4 4 L 8 0 Z"
+                              Fill="White"
+                              Width="8"
+                              Height="5"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                        </ToggleButton>
+                        <ContentPresenter x:Name="ContentSite"
+                                      Margin="6,0,25,0"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      Content="{TemplateBinding SelectionBoxItem}"
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                        <Popup x:Name="Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                            <Grid MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border x:Name="DropDownBorder"
+                                    Background="#2C2C2C"
+                                    BorderBrush="#444"
+                                    BorderThickness="1"
+                                    CornerRadius="6"/>
+                                <ScrollViewer Margin="4,2" SnapsToDevicePixels="True">
+                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#666"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!--ModernComboBox_CustomSelected-->
+    <Style x:Key="ModernComboBox_CustomSelected" TargetType="ComboBox" BasedOn="{StaticResource ModernComboBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <!-- ToggleButton to handle opening -->
+                        <ToggleButton x:Name="ToggleButton"
+                              Focusable="False"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              ClickMode="Press"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              Height="{TemplateBinding Height}"
+                              HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Center"
+                              Padding="{TemplateBinding Padding}">
+                            <Grid>
+                                <!-- Custom selected item -->
+                                <ContentPresenter x:Name="ContentSite"
+                                          IsHitTestVisible="False"
+                                          Content="{TemplateBinding SelectedItem}"
+                                          Margin="6,0,25,0"
+                                          VerticalAlignment="Center"
+                                          RecognizesAccessKey="True">
+                                    <ContentPresenter.ContentTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"
+                                               FontWeight="Bold"
+                                               Foreground="#9B59B6"/>
+                                        </DataTemplate>
+                                    </ContentPresenter.ContentTemplate>
+                                </ContentPresenter>
+
+                                <!-- Dropdown arrow -->
+                                <Path x:Name="Arrow"
+                              Data="M 0 0 L 4 4 L 8 0 Z"
+                              Fill="White"
+                              Width="10" 
+                              Height="6"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0"
+                              RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Grid>
+                        </ToggleButton>
+
+                        <!-- Popup -->
+                        <Popup x:Name="PART_Popup"
+                       Placement="Bottom"
+                       AllowsTransparency="True"
+                       Focusable="False"
+                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                       PopupAnimation="Slide">
+                            <Border Background="#2C2C2C"
+                            BorderBrush="#444"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                                <ScrollViewer Margin="4,2">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <!-- Triggers - Removed the IsMouseOver trigger -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter TargetName="Arrow" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
 </ResourceDictionary>

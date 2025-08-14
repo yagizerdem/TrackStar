@@ -1,0 +1,296 @@
+﻿<UserControl x:Class="TrackStar.Views.SavedView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TrackStar.Views"
+             mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:TrackStar.Converters"
+             xmlns:viewCommon="clr-namespace:TrackStar.Views.Common"
+             xmlns:dto="clr-namespace:TrackStar.Models.DTO"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibileCollapsedConverter x:Key="BooleanToVisibileCollapsedConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:NullToVisibilityReversedConverter x:Key="NullToVisibilityReversedConverter"/>
+
+    </UserControl.Resources>
+
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <!--laoder-->
+        <viewCommon:LoadingPanel Grid.ColumnSpan="10"
+                         Grid.RowSpan="10"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Panel.ZIndex="100"
+                         Background="#80000000"
+                         Visibility="{Binding IsLoading , 
+                           Converter={StaticResource BooleanToVisibileCollapsedConverter}}"/>
+
+        <!--filter text box and string search strategy-->
+        <Grid Grid.Row="0" Margin="0 20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Style="{StaticResource BootstrapTextBox}" Grid.Column="1"/>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="2"
+                        Margin="10 0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Exact Match"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                    <CheckBox Style="{StaticResource ModernCheckBox1}"
+                                Margin="10 0"
+                                IsChecked="{Binding IsExactMatch, UpdateSourceTrigger=PropertyChanged , Mode=TwoWay}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Substring Match"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                    <CheckBox Style="{StaticResource ModernCheckBox1}"
+                              Margin="10 0"
+                              IsChecked="{Binding IsSubstringMatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+                
+            </StackPanel>
+            
+        </Grid>
+
+
+        <!--filter by options-->
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Stretch"
+                        Margin="0 10">
+
+                <TextBlock Text="Filter By"
+                          FontSize="18"
+                          FontWeight="Bold"
+                          Foreground="White"
+                          VerticalAlignment="Center"
+                           Margin="10 20"/>
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="10 0">
+                    <!--filter by title-->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10 0">
+                        <TextBlock Text="Title"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
+                        <CheckBox Style="{StaticResource ModernCheckBox1}" 
+                                  IsChecked="{Binding FilterByTitle}"/>
+                    </StackPanel>
+                    
+                    <!--filter by Director-->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10 0">
+                        <TextBlock Text="Director"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                        <CheckBox Style="{StaticResource ModernCheckBox1}" 
+                                   IsChecked="{Binding FilterByDirctor}"/>
+                    </StackPanel>
+
+                    <!--filter by Writer-->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10 0">
+                        <TextBlock Text="Writer"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                        <CheckBox Style="{StaticResource ModernCheckBox1}"
+                                    IsChecked="{Binding FilterByWriter}"/>
+                    </StackPanel>
+
+                    <!--filter by Actors-->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10 0">
+                        <TextBlock Text="Actors"
+                     FontSize="12"
+                     FontWeight="Bold"
+                     Foreground="White"
+                     VerticalAlignment="Center"/>
+                        <CheckBox Style="{StaticResource ModernCheckBox1}" 
+                                   IsChecked="{Binding FilterByActors}"/>
+                    </StackPanel>
+
+
+                    <!--filter by Country-->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10 0">
+                        <TextBlock Text="Country"
+                     FontSize="12"
+                     FontWeight="Bold"
+                     Foreground="White"
+                     VerticalAlignment="Center"/>
+                        <CheckBox Style="{StaticResource ModernCheckBox1}" 
+                                  IsChecked="{Binding FilterByCountry}"/>
+                    </StackPanel>
+
+
+                </StackPanel>
+             
+
+                
+            </StackPanel>
+        </Grid>
+
+
+        <!--sort by options-->
+        <Grid  Grid.Row="2">
+            <StackPanel>
+                <TextBlock
+                    Margin="10 20"
+                    Text="Sort By"
+                    FontWeight="Bold"
+                    FontSize="18"
+                    Foreground="White"/>
+
+                <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal"
+                    Margin="10 0">
+                            <TextBlock Text="Ascending"
+                       FontSize="12"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       VerticalAlignment="Center"/>
+                            <CheckBox Style="{StaticResource ModernCheckBox1}" 
+                      IsChecked="{Binding SortAscending}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                Margin="10 0">
+                            <TextBlock Text="Descending"
+                   FontSize="12"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   VerticalAlignment="Center"/>
+                            <CheckBox Style="{StaticResource ModernCheckBox1}" 
+                  IsChecked="{Binding SortDescending}"/>
+                        </StackPanel>
+
+                        <!--sor by--> 
+                        <Grid Margin="10 0">
+                            <!-- ComboBox -->
+                            <ComboBox Width="200"
+              Foreground="White"
+              Style="{StaticResource ModernComboBox}"
+              ItemsSource="{Binding SortByOptions}"
+              SelectedItem="{Binding SortBy, Mode=TwoWay}"/>
+
+                            <!-- Placeholder text -->
+                            <TextBlock Text="Select Sort By"
+               FontSize="12"
+               FontWeight="Bold"
+               Foreground="Gray"
+               VerticalAlignment="Center"
+               Margin="8,0,0,0"
+               IsHitTestVisible="False"
+               Visibility="{Binding SortBy, Converter={StaticResource NullToVisibilityReversedConverter}}"/>
+                        </Grid>
+
+                        <!--sort then by-->
+                    <Grid Margin="10 0">
+                        <!-- ComboBox -->
+                        <ComboBox Width="200"
+                                Foreground="White"
+                                Style="{StaticResource ModernComboBox}"
+                                ItemsSource="{Binding SortThenByOptions}"
+                                SelectedItem="{Binding SortThenBy, Mode=TwoWay}"/>
+
+                        <!-- Placeholder text -->
+                        <TextBlock Text="Select Sort Then By"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   Foreground="Gray"
+                                   VerticalAlignment="Center"
+                                   Margin="8,0,0,0"
+                                   IsHitTestVisible="False"
+                                   Visibility="{Binding SortThenBy, Converter={StaticResource NullToVisibilityReversedConverter}}"/>
+                    </Grid>
+
+
+
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+        
+        <!--view mode-->
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                    Margin="10 20"
+                    Text="View Mode"
+                    FontWeight="Bold"
+                    FontSize="18"
+                    Foreground="White"/>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="10 0"
+                        Grid.Row="1">
+            
+                <!--list view-->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="List View"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                    <CheckBox 
+                              Style="{StaticResource ModernCheckBox1}"
+                              Margin="10 0"
+                              IsChecked="{Binding IsListView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/> 
+                </StackPanel>
+                
+                <!--gird view-->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Grid View"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                    <CheckBox 
+                              Style="{StaticResource ModernCheckBox1}"
+                              Margin="10 0"
+                              IsChecked="{Binding IsGridView, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+</UserControl>

@@ -22,6 +22,11 @@
             <view:SearchView />
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:SavedViewModel}">
+            <view:SavedView />
+        </DataTemplate>
+
+
         <converters:BooleanToVisibileCollapsedConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
@@ -69,7 +74,8 @@
             <Button Style="{StaticResource BtnGhost}" 
                     Content="Saved"
                     BorderThickness="0"
-                    Height="60"/>
+                    Height="60"
+                    Command="{Binding NavigateSaved}"/>
 
             <Button Style="{StaticResource BtnGhost}" 
                     Content="Watch List"
