@@ -342,11 +342,39 @@
         <!--movie lis view-->
         <ListView ItemsSource="{Binding SearchMovieResults}"
                   Visibility="{Binding IsMovieMode , Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
+          ScrollViewer.CanContentScroll="False"
           Margin="10"
           BorderThickness="0"
           Background="Transparent"
           ScrollViewer.VerticalScrollBarVisibility="Auto"
           Grid.Row="2">
+
+            <ListView.Resources>
+                <!-- Apply Modern Slider Style to ScrollBar -->
+                <Style TargetType="ScrollBar" BasedOn="{x:Null}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ScrollBar">
+                                <Grid Background="Transparent" SnapsToDevicePixels="True">
+                                    <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource SliderTrackDecreaseButtonStyle}" />
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource SliderTrackIncreaseButtonStyle}" />
+                                        </Track.IncreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ModernSliderThumb}"/>
+                                        </Track.Thumb>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Width" Value="8"/>
+                </Style>
+            </ListView.Resources>
+
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type dto:OmdbMovieDTO}">
                     <Border BorderBrush="#dee2e6"
@@ -413,9 +441,17 @@ DockPanel.Dock="Left"/>
                                     MaxWidth="300"
                                     Margin="20"
                                     Content="Star Movie"
-                                    HorizontalAlignment="Left">
-                                
-                            </Button>
+                                    HorizontalAlignment="Left"/>
+
+                            <Button Style="{StaticResource BtnSuccess}"
+                                    Command="{Binding DataContext.AddMovieToWatclistCommand, 
+                                            RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                     CommandParameter="{Binding}"
+                                    MaxWidth="300"
+                                    Margin="20"
+                                    Content="Add to watchlist"
+                                    HorizontalAlignment="Left"/>
+
                         </StackPanel>
                     </Border>
                 </DataTemplate>
@@ -448,10 +484,37 @@ DockPanel.Dock="Left"/>
         <ListView ItemsSource="{Binding SearchSeriesResults}"
           Visibility="{Binding IsSeriesMode, Converter={StaticResource BooleanToVisibileCollapsedConverter}}"
           Margin="10"
+          ScrollViewer.CanContentScroll="False"
           BorderThickness="0"
           Background="Transparent"
           ScrollViewer.VerticalScrollBarVisibility="Auto"
           Grid.Row="2">
+
+            <ListView.Resources>
+                <!-- Apply Modern Slider Style to ScrollBar -->
+                <Style TargetType="ScrollBar" BasedOn="{x:Null}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ScrollBar">
+                                <Grid Background="Transparent" SnapsToDevicePixels="True">
+                                    <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource SliderTrackDecreaseButtonStyle}" />
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource SliderTrackIncreaseButtonStyle}" />
+                                        </Track.IncreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ModernSliderThumb}"/>
+                                        </Track.Thumb>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Width" Value="8"/>
+                </Style>
+            </ListView.Resources>
 
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type dto:OmdbSeriesDTO}">
@@ -522,6 +585,15 @@ DockPanel.Dock="Left"/>
                           Margin="20"
                           Content="Star Series"
                           HorizontalAlignment="Left"/>
+
+                            <Button Style="{StaticResource BtnSuccess}"
+                      Command="{Binding DataContext.AddSeriesToWatclistCommand, 
+                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       CommandParameter="{Binding}"
+                      MaxWidth="300"
+                      Margin="20"
+                      Content="Add to watchlist"
+                      HorizontalAlignment="Left"/>
 
                         </StackPanel>
                     </Border>

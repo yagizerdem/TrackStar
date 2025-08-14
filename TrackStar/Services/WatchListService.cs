@@ -45,7 +45,7 @@ namespace TrackStar.Services
             return entity;
         }
 
-        public async Task AddSeriesToWathList(SeriesEntity entity)
+        public async Task AddSeriesToWatchList(SeriesEntity entity)
         {
             // check if the series already exists in watchlist
             var seriesFromDb = _context.Series.FirstOrDefault(m => m.ImdbID == entity.ImdbID || m.Title == entity.Title);
