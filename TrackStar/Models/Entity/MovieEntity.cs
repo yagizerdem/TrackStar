@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace TrackStar.Models.Entity
 {
@@ -34,7 +36,21 @@ namespace TrackStar.Models.Entity
         public string Website { get; set; }
         public string Response { get; set; }
         public bool IsStarred { get; set; } = false;    
-        public bool IsInWatchlist { get; set; } = false;    
+        public bool IsInWatchlist { get; set; } = false;
+
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as MovieEntity;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return item.ImdbID != null ? this.ImdbID.Equals(item.ImdbID) : this.Title.Equals(item.Title);
+        }
+
     }
 
 

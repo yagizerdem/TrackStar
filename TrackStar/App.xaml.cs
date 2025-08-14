@@ -49,6 +49,7 @@ namespace TrackStar
             services.AddSingleton<AppService>();
             services.AddSingleton<MovieService>();
             services.AddSingleton<SeriesService>();
+            services.AddSingleton<SavedService>();
 
             services.AddDbContext<AppDataContext>(options =>
             {

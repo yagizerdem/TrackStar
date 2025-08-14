@@ -4,6 +4,7 @@ using System.DirectoryServices;
 using System.Reflection.Emit;
 using TrackStar.Commands;
 using TrackStar.Models.DTO;
+using TrackStar.Models.Entity;
 using TrackStar.Services;
 using TrackStar.Utils;
 
@@ -75,6 +76,7 @@ namespace TrackStar.ViewModels
         
         private readonly SeriesService _seriesService;
 
+        private readonly SavedService _savedService;
         public RelayCommand<object> SearchMoviesCommand { get; set; }
         
         public RelayCommand<object> SearchDetailsOfMovieCommand { get; set; }
@@ -104,7 +106,7 @@ namespace TrackStar.ViewModels
             
             _movieService = App.Services.GetService<MovieService>()!;
             _seriesService = App.Services.GetService<SeriesService>()!;
-
+            _savedService = App.Services.GetService<SavedService>()!;
 
             SearchMoviesCommand = new RelayCommand<object>(_ => SearchMoviesCommandExecute(), _ => !string.IsNullOrEmpty(SearchText) || !string.IsNullOrWhiteSpace(SearchText));
             SearchDetailsOfMovieCommand = new RelayCommand<object>(movie => SearchDetailsOfMovieExecute((OmdbMovieDTO)movie), movie => movie is OmdbMovieDTO);
@@ -272,7 +274,13 @@ namespace TrackStar.ViewModels
             {
                 IsLoading = true;
                 // fetch movie details from api
-                //OmdbMovieDetailsDTO details = await _movieService.GetMovieDetailsByTitle(dto.Title);
+                OmdbMovieDetailsDTO details = (await _movieService.GetMovieDetailsByTitle(dto.Title)) 
+                    ?? throw new ApplicationException("details not found");
+
+                MovieEntity entity =  App.mapper.Map<OmdbMovieDetailsDTO, MovieEntity>(details);
+
+                await _savedService.SaveMovie(entity);
+                ShowToast.ShowSuccess("Movie saved successfully");
             }
             catch (ApplicationException ex)
             {
