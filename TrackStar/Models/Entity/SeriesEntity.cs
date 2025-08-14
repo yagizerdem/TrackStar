@@ -32,5 +32,19 @@ namespace TrackStar.Models.Entity
         public string Response { get; set; }
         public bool IsStarred { get; set; } = false;
         public bool IsInWatchlist { get; set; } = false;
+
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as SeriesEntity;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return item.ImdbID != null ? this.ImdbID.Equals(item.ImdbID) : this.Title.Equals(item.Title);
+        }
+
     }
 }

@@ -58,7 +58,7 @@
 
             <!-- Center the card -->
             <Grid HorizontalAlignment="Center"
-          VerticalAlignment="Center">
+                  VerticalAlignment="Center">
                 <Border Width="600"
                 MaxHeight="700"
                 Padding="20"
@@ -512,6 +512,17 @@ DockPanel.Dock="Left"/>
                             MaxWidth="300"
                             Margin="20"
                             Content="Show Details"/>
+
+
+                            <Button Style="{StaticResource BtnSuccess}"
+                          Command="{Binding DataContext.StarSeriesCommand, 
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           CommandParameter="{Binding}"
+                          MaxWidth="300"
+                          Margin="20"
+                          Content="Star Series"
+                          HorizontalAlignment="Left"/>
+
                         </StackPanel>
                     </Border>
                 </DataTemplate>

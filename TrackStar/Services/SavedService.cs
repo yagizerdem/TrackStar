@@ -50,5 +50,37 @@ namespace TrackStar.Services
 
             return entity;
         }
+    
+        public async Task SaveSeries(SeriesEntity entity)
+        {
+            // check if the series already exists
+            var SeriesFromDb = _context.Series.FirstOrDefault(s => s.ImdbID == entity.ImdbID || s.Title == entity.Title);
+            
+            bool flag = entity.Equals(SeriesFromDb);
+            if(flag && SeriesFromDb.IsStarred) throw new ApplicationException("Series is already saved.");
+            if (!flag)
+            {
+                entity.CreatedAt = DateTime.Now;
+                entity.UpdatedAt = DateTime.Now;
+                entity.IsStarred = true;
+                await _context.Series.AddAsync(entity);
+            }
+            else
+            {
+                SeriesFromDb.UpdatedAt = DateTime.Now;
+                SeriesFromDb.IsStarred = false;
+                _context.Series.Update(SeriesFromDb);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<SeriesEntity>> GetSavedSeries()
+        {
+            var entity = await _context.Series.Where(s => s.IsStarred)
+                .Include(s => s.Ratings)
+                .OrderByDescending(s => s.CreatedAt)
+                .ToListAsync();
+            return entity;
+        }   
     }
 }

@@ -96,6 +96,7 @@ namespace TrackStar.ViewModels
 
         public RelayCommand<object> StarMovieCommand { get; set; }
 
+        public RelayCommand<object> StarSeriesCommand { get; set; }
         public ObservableCollection<OmdbMovieDTO> SearchMovieResults { get; set; } = new ObservableCollection<OmdbMovieDTO>();
 
         public ObservableCollection<OmdbSeriesDTO> SearchSeriesResults { get; set; } = new ObservableCollection<OmdbSeriesDTO>();
@@ -117,6 +118,7 @@ namespace TrackStar.ViewModels
             LoadMoreSeriesCommand = new RelayCommand<object>(_ => LoadMoreSeriesCommandExecute(), _ => !IsLoading && SearchSeriesResults.Count > 0);
             CloseSeriesDetailsCommand = new RelayCommand<object>(_ => SelectedSeriesDetails = null, _ => true);
             StarMovieCommand = new RelayCommand<object>(movie => StarMovieCommandExecute((OmdbMovieDTO)movie), movie => movie is OmdbMovieDTO);
+            StarSeriesCommand = new RelayCommand<object>(series => StarSeriesCommandExecute((OmdbSeriesDTO)series), series => series is OmdbSeriesDTO);
 
         }
 
@@ -296,5 +298,32 @@ namespace TrackStar.ViewModels
             }
 
         }
+
+        async public void StarSeriesCommandExecute(OmdbSeriesDTO dto)
+        {
+            try
+            {
+                IsLoading = true;
+                // fetch series details from api
+                OmdbSeriesDetailsDTO details = (await _seriesService.GetSeriesDetail(dto.Title))
+                    ?? throw new ApplicationException("details not found");
+                SeriesEntity entity = App.mapper.Map<OmdbSeriesDetailsDTO, SeriesEntity>(details);
+                await _savedService.SaveSeries(entity);
+                ShowToast.ShowSuccess("Series saved successfully");
+            }
+            catch (ApplicationException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
+            {
+                ShowToast.ShowError("Error occured");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
     }
 }
