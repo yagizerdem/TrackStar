@@ -650,6 +650,9 @@
                                           Style="{StaticResource BtnToggleSuccess}"
                                           Margin="0,0,0,8"/>
                                     <ToggleButton Content="Watchlist"
+                                           Command="{Binding DataContext.AddMovieToWatchlist, 
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
                                           IsChecked="{Binding IsInWatchlist, Mode=TwoWay}"
                                           Style="{StaticResource BtnTogglePrimary}"
                                           Margin="0,0,0,8"/>
@@ -818,6 +821,9 @@
                                           Style="{StaticResource BtnToggleSuccess}"
                                           Margin="0,0,0,8"/>
                                         <ToggleButton Content="Watchlist"
+                                            Command="{Binding DataContext.AddMovieToWatchlist, 
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
                                           IsChecked="{Binding IsInWatchlist, Mode=TwoWay}"
                                           Style="{StaticResource BtnTogglePrimary}"
                                           Margin="0,0,0,8"/>
@@ -939,8 +945,17 @@
                                           Style="{StaticResource BtnToggleSuccess}"
                                           Margin="0,0,0,8"/>
                                     <ToggleButton Content="Watchlist"
+                                        Command="{Binding DataContext.AddSeriesToWatchlist, 
+                                             RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                           CommandParameter="{Binding}"
                                           IsChecked="{Binding IsInWatchlist, Mode=TwoWay}"
                                           Style="{StaticResource BtnTogglePrimary}"/>
+                                    <ToggleButton 
+                                        Content="Remove Selected"
+                                        Command="{Binding DataContext.RemoveSeriesFromSavedCommand, 
+                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        Style="{StaticResource BtnToggleDanger}"
+                                        CommandParameter="{Binding}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -1102,8 +1117,17 @@
                                       Style="{StaticResource BtnToggleSuccess}"
                                       Margin="0,0,0,8"/>
                                         <ToggleButton Content="Watchlist"
-                                      IsChecked="{Binding IsInWatchlist, Mode=TwoWay}"
-                                      Style="{StaticResource BtnTogglePrimary}"/>
+                                        Command="{Binding DataContext.AddSeriesToWatchlist, 
+                                            RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                         CommandParameter="{Binding}"
+                                        IsChecked="{Binding IsInWatchlist, Mode=TwoWay}"
+                                        Style="{StaticResource BtnTogglePrimary}"/>
+                                        <ToggleButton 
+                                  Content="Remove Selected"
+                                  Command="{Binding DataContext.RemoveSeriesFromSavedCommand, 
+                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                  Style="{StaticResource BtnToggleDanger}"
+                                  CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>

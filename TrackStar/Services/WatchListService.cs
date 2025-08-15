@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TrackStar.DataContext;
+using TrackStar.Exceptions;
 using TrackStar.Models.Entity;
 
 namespace TrackStar.Services
@@ -19,7 +20,7 @@ namespace TrackStar.Services
             // check if the movie already exists in watchlist
             var movieFromDb = _context.Movies.FirstOrDefault(m => m.ImdbID == entity.ImdbID || m.Title == entity.Title);
             if (movieFromDb != null && movieFromDb.IsInWatchlist)
-                throw new ApplicationException("Movie is already in watchlist.");
+                throw new AppException("Movie is already in watchlist.");
             if (movieFromDb == null)
             {
                 entity.CreatedAt = DateTime.Now;
@@ -41,6 +42,7 @@ namespace TrackStar.Services
             var entity = await _context.Movies.Where(m => m.IsInWatchlist)
                 .Include(m => m.Ratings)
                 .OrderByDescending(m => m.CreatedAt)
+                .AsNoTracking()
                 .ToListAsync();
             return entity;
         }
@@ -50,7 +52,7 @@ namespace TrackStar.Services
             // check if the series already exists in watchlist
             var seriesFromDb = _context.Series.FirstOrDefault(m => m.ImdbID == entity.ImdbID || m.Title == entity.Title);
             if (seriesFromDb != null && seriesFromDb.IsInWatchlist)
-                throw new ApplicationException("Series is already in watchlist.");
+                throw new AppException("Series is already in watchlist.");
             if (seriesFromDb == null)
             {
                 entity.CreatedAt = DateTime.Now;
@@ -72,6 +74,7 @@ namespace TrackStar.Services
             var entity = await _context.Series.Where(m => m.IsInWatchlist)
                 .Include(m => m.Ratings)
                 .OrderByDescending(m => m.CreatedAt)
+                .AsNoTracking()
                 .ToListAsync();
             return entity;
         }

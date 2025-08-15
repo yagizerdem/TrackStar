@@ -46,6 +46,7 @@ namespace TrackStar.Services
             var entity = await _context.Movies.Where(m => m.IsStarred)
                 .Include(m => m.Ratings)
                 .OrderByDescending(m => m.CreatedAt)
+                .AsNoTracking()
                 .ToListAsync();
 
             return entity;
@@ -79,8 +80,32 @@ namespace TrackStar.Services
             var entity = await _context.Series.Where(s => s.IsStarred)
                 .Include(s => s.Ratings)
                 .OrderByDescending(s => s.CreatedAt)
+                .AsNoTracking()
                 .ToListAsync();
             return entity;
         }   
+
+        public async Task RemoveMovie(MovieEntity entity)
+        {
+            var MovieFromDb = _context.Movies.FirstOrDefault(m => m.ImdbID == entity.ImdbID || m.Title == entity.Title);
+            if (MovieFromDb != null)
+            {
+                MovieFromDb.IsStarred = false;
+                _context.Movies.Update(MovieFromDb);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveSeries(SeriesEntity entity)
+        {
+            var SeriesFromDb = _context.Series.FirstOrDefault(s => s.ImdbID == entity.ImdbID || s.Title == entity.Title);
+            if (SeriesFromDb != null)
+            {
+                SeriesFromDb.IsStarred = false;
+                _context.Series.Update(SeriesFromDb);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }

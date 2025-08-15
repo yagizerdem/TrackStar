@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using TrackStar.Commands;
 using TrackStar.DataContext;
 using TrackStar.Exceptions;
@@ -62,6 +63,8 @@ namespace TrackStar.ViewModels
         }
 
         private readonly SavedService _savedService;
+
+        private readonly WatchListService _watchListService;
 
         // filter by
 
@@ -320,18 +323,27 @@ namespace TrackStar.ViewModels
         // show close details commands
         public RelayCommand<object> ShowMovieDetails { get; set; }
         public RelayCommand<object> ShowSeriesDetails { get; set; }
-        public  RelayCommand<object> CloseMoveiDetailsCommand { get; set; }
+        public RelayCommand<object> CloseMoveiDetailsCommand { get; set; }
         public RelayCommand<object> CloseSeriesDetailsCommand { get; set; }
-        public RelayCommand<object> DelteMovieFromSavedCommand { get; set; }
-       
+
         public RelayCommand<object> ApplySortMovieCommand { get; set; }
         public RelayCommand<object> ApplySortingToSeriesCommand { get; set; }
         public RelayCommand<object> ApplyFilterMovieCommand { get; set; }
         public RelayCommand<object> ApplyFilterSeriesCommand { get; set; }
 
+        public RelayCommand<object> AddMovieToWatchlist { get; set; }
+
+        public RelayCommand<object> AddSeriesToWatchlist { get; set; }
+
+        public RelayCommand<object> DelteMovieFromSavedCommand { get; set; }
+    
+        public RelayCommand<object> RemoveSeriesFromSavedCommand { get; set; }
+
+
         public SavedViewModel()
         {
             _savedService = App.Services.GetService<SavedService>()!;
+            _watchListService = App.Services.GetService<WatchListService>()!;
 
             // fetch fromd db
             Initilize();
@@ -348,11 +360,14 @@ namespace TrackStar.ViewModels
             ShowSeriesDetails = new RelayCommand<object>(s => ShowSeriesDetailsExecute((SeriesEntity)s), e => e.GetType() == typeof(SeriesEntity));
             CloseMoveiDetailsCommand = new RelayCommand<object>(_ => SelectedMovie = null, _ => true);
             CloseSeriesDetailsCommand = new RelayCommand<object>(_ => SelectedSeries = null, _ => true);
-            DelteMovieFromSavedCommand = new RelayCommand<object>(async m => await DeleteMovieFromSavedExecute((MovieEntity)m), m => m.GetType() == typeof(MovieEntity));
             ApplySortMovieCommand = new RelayCommand<object>(_ => ApplySortMovieCommandExecute(), _ => true);
             ApplySortingToSeriesCommand = new RelayCommand<object>(_ => ApplySortSeriesCommandExecute(), _ => true);
             ApplyFilterMovieCommand = new RelayCommand<object>(_ => ApplyFilterMovieCommandExecute(), _ => true);
             ApplyFilterSeriesCommand = new RelayCommand<object>(_ => ApplyFilterSeriesCommandExecute(), _ => true);
+            AddMovieToWatchlist = new RelayCommand<object>(async m => await AddMovieToWatchlistExecute((MovieEntity)m), m => m.GetType() == typeof(MovieEntity));
+            AddSeriesToWatchlist = new RelayCommand<object>(async s => await AddSeriesToWatchlistExecute((SeriesEntity)s), s => s.GetType() == typeof(SeriesEntity));
+            DelteMovieFromSavedCommand = new RelayCommand<object>(async m => await RemoveFilmFromSavedCommandExecute((MovieEntity)m), m => m.GetType() == typeof(MovieEntity));
+            RemoveSeriesFromSavedCommand = new RelayCommand<object>(async s => await RemoveFilmFromSavedCommandExecute((SeriesEntity)s), s => s.GetType() == typeof(SeriesEntity));
         }
 
         public async Task Initilize()
@@ -455,32 +470,12 @@ namespace TrackStar.ViewModels
             SelectedSeries = series;
 
         }
- 
 
-        private async Task DeleteMovieFromSavedExecute(MovieEntity entity)
-        {
-            try
-            {
-                IsLoading = true;
-            }
-            catch (AppException ex)
-            {
-                ShowToast.ShowError(ex.Message ?? "Error occured");
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"Error deleting movie from saved: {ex.Message}");
-                ShowToast.ShowError("Error occured");
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
+
 
         private void ApplySortMovieCommandExecute()
         {
-            if(string.IsNullOrEmpty(SortBy) || string.IsNullOrWhiteSpace(SortBy))
+            if (string.IsNullOrEmpty(SortBy) || string.IsNullOrWhiteSpace(SortBy))
             {
                 ShowToast.ShowError("Please select a valid sort by option.");
                 return;
@@ -510,7 +505,7 @@ namespace TrackStar.ViewModels
             }
 
         }
-        
+
         private void ApplySortSeriesCommandExecute()
         {
             if (string.IsNullOrEmpty(SortBy) || string.IsNullOrWhiteSpace(SortBy))
@@ -667,5 +662,118 @@ namespace TrackStar.ViewModels
                 SavedSeries.Add(series);
         }
 
+        // add watchlist 
+
+        private async Task AddMovieToWatchlistExecute(MovieEntity entity)
+        {
+            if (entity == null) return;
+            try
+            {
+                IsLoading = true;
+                await _watchListService.AddMovieToWatchList(entity);
+                ShowToast.ShowSuccess("Movie added to watchlist successfully.");
+            }
+            catch (TrackStar.Exceptions.AppException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding movie to watchlist: {ex.Message}");
+                ShowToast.ShowError("Error occured");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task AddSeriesToWatchlistExecute(SeriesEntity entity)
+        {
+            if (entity == null) return;
+            try
+            {
+                IsLoading = true;
+                await _watchListService.AddSeriesToWatchList(entity);
+                ShowToast.ShowSuccess("Series added to watchlist successfully.");
+            }
+            catch (TrackStar.Exceptions.AppException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding series to watchlist: {ex.Message}");
+                ShowToast.ShowError("Error occured");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+
+        // remove functions
+
+        private async Task RemoveFilmFromSavedCommandExecute(MovieEntity entity)
+        {
+            if (entity == null) return;
+            try
+            {
+                IsLoading = true;
+                await _savedService.RemoveMovie(entity);
+                SavedMovies.Remove(entity);
+
+                // refresh gui
+                this.SavedMovies.Clear();
+                this.SavedMoviesClone = new List<MovieEntity>(this.SavedMoviesClone.Where(m => m.ImdbID != entity.ImdbID));
+                this.SavedMoviesClone.ForEach(m => this.SavedMovies.Add(m));
+
+                ShowToast.ShowSuccess("Movie removed from saved successfully.");
+            }
+            catch (TrackStar.Exceptions.AppException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing movie from saved: {ex.Message}");
+                ShowToast.ShowError("Error occured");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+    
+        private async Task RemoveFilmFromSavedCommandExecute(SeriesEntity entity)
+        {
+            if (entity == null) return;
+            try
+            {
+                IsLoading = true;
+                await _savedService.RemoveSeries(entity);
+                SavedSeries.Remove(entity);
+                // refresh gui
+                this.SavedSeries.Clear();
+                this.SavedSeriesClone = new List<SeriesEntity>(this.SavedSeriesClone.Where(s => s.ImdbID != entity.ImdbID));
+                this.SavedSeriesClone.ForEach(s => this.SavedSeries.Add(s));
+                
+                ShowToast.ShowSuccess("Series removed from saved successfully.");
+            }
+            catch (TrackStar.Exceptions.AppException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing series from saved: {ex.Message}");
+                ShowToast.ShowError("Error occured");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
     }
 }
