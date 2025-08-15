@@ -793,6 +793,58 @@
         </Setter>
     </Style>
 
+    <Style x:Key="BtnToggleDanger" TargetType="ToggleButton">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#DC3545"/>
+        <!-- Base red -->
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="BorderBrush" Value="#DC3545"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="border"
+                        CornerRadius="4"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      RecognizesAccessKey="True"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Hover -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#BB2D3B"/>
+                            <!-- Darker red -->
+                            <Setter Property="BorderBrush" TargetName="border" Value="#B02A37"/>
+                        </Trigger>
+                        <!-- Pressed -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#B02A37"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#842029"/>
+                        </Trigger>
+                        <!-- Checked -->
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#842029"/>
+                            <!-- Deep red -->
+                            <Setter Property="BorderBrush" TargetName="border" Value="#842029"/>
+                        </Trigger>
+                        <!-- Disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#E9ECEF"/>
+                            <Setter TargetName="border" Property="BorderBrush" Value="#E9ECEF"/>
+                            <Setter Property="Foreground" Value="#6c757d"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
 
     <!-- Custom ScrollViewer Style (Uses your existing Slider resources) -->
     <Style x:Key="ModernScrollViewerVertical" TargetType="ScrollViewer">

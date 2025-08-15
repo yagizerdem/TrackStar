@@ -1,27 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrackStar.Commands;
 using TrackStar.DataContext;
 using TrackStar.Exceptions;
 using TrackStar.Models.Entity;
 using TrackStar.Services;
 using TrackStar.Utils;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TrackStar.ViewModels
 {
-    public  class SavedViewModel : ViewModelBase
+    public class SavedViewModel : ViewModelBase
     {
         private bool _isLoading;
 
-        public  bool IsLoading
+        public bool IsLoading
         {
             get => _isLoading;
             set { SetProperty(ref _isLoading, value); }
+        }
+
+        private string _query;
+
+        public string Query
+        {
+            get => _query;
+            set
+            {
+                SetProperty<string>(ref _query, value);
+            }
         }
 
         private bool _isExactMatch;
@@ -29,7 +43,7 @@ namespace TrackStar.ViewModels
         public bool IsExactMatch
         {
             get => _isExactMatch;
-            set 
+            set
             {
                 if (value) IsSubstringMatch = false;
                 SetProperty(ref _isExactMatch, value);
@@ -40,7 +54,7 @@ namespace TrackStar.ViewModels
         public bool IsSubstringMatch
         {
             get => _isSubstringMatch;
-            set 
+            set
             {
                 if (value) IsExactMatch = false;
                 SetProperty(ref _isSubstringMatch, value);
@@ -50,16 +64,16 @@ namespace TrackStar.ViewModels
         private readonly SavedService _savedService;
 
         // filter by
-        
+
         // title
         private bool _filterByTitle;
-        
+
         public bool FilterByTitle
         {
             get => _filterByTitle;
-            set 
+            set
             {
-                if(value) _filterChanged?.Invoke();
+                if (value) _filterChanged?.Invoke();
                 SetProperty(ref _filterByTitle, value);
             }
         }
@@ -119,7 +133,7 @@ namespace TrackStar.ViewModels
         }
 
         // filter changed event
-        private event Action ?  _filterChanged;
+        private event Action? _filterChanged;
 
 
         // sort by
@@ -146,7 +160,7 @@ namespace TrackStar.ViewModels
             }
         }
 
-        public  ObservableCollection<string> SortByOptions { get; set; } = new ObservableCollection<string>
+        public ObservableCollection<string> SortByOptions { get; set; } = new ObservableCollection<string>
         {
             "Title",
             "Director",
@@ -258,29 +272,100 @@ namespace TrackStar.ViewModels
         }
 
 
+        // films - series selection
+
+        private bool _isFilms = true;
+
+        public bool IsFilms
+        {
+            get => _isFilms;
+            set
+            {
+                SetProperty(ref _isFilms, value);
+                OnPropertyChanged(nameof(IsSeries));
+            }
+        }
+
+        public bool IsSeries => !IsFilms;
+
+        private MovieEntity? _selectedMovie;
+        public MovieEntity? SelectedMovie
+        {
+            get => _selectedMovie;
+            set
+            {
+                SetProperty(ref _selectedMovie, value);
+            }
+        }
+
+        private SeriesEntity? _selectedSeries;
+        public SeriesEntity? SelectedSeries
+        {
+            get => _selectedSeries;
+            set
+            {
+                SetProperty(ref _selectedSeries, value);
+            }
+
+        }
+
         public ObservableCollection<MovieEntity> SavedMovies { get; set; } = new ObservableCollection<MovieEntity>();
         public List<MovieEntity> SavedMoviesClone { get; set; } = new();
+
+        public ObservableCollection<SeriesEntity> SavedSeries { get; set; } = new ObservableCollection<SeriesEntity>();
+        public List<SeriesEntity> SavedSeriesClone { get; set; } = new();
+
+        //commands 
+        public RelayCommand<object> RefreshCommand { get; set; }
+        // show close details commands
+        public RelayCommand<object> ShowMovieDetails { get; set; }
+        public RelayCommand<object> ShowSeriesDetails { get; set; }
+        public  RelayCommand<object> CloseMoveiDetailsCommand { get; set; }
+        public RelayCommand<object> CloseSeriesDetailsCommand { get; set; }
+        public RelayCommand<object> DelteMovieFromSavedCommand { get; set; }
+       
+        public RelayCommand<object> ApplySortMovieCommand { get; set; }
+        public RelayCommand<object> ApplySortingToSeriesCommand { get; set; }
+        public RelayCommand<object> ApplyFilterMovieCommand { get; set; }
+        public RelayCommand<object> ApplyFilterSeriesCommand { get; set; }
+
         public SavedViewModel()
         {
             _savedService = App.Services.GetService<SavedService>()!;
 
+            // fetch fromd db
             Initilize();
-            _filterChanged += () => DisableAllFilter();
-        }
+            // default panel settings
+            IsExactMatch = true;
+            IsListView = true;
+            IsFilms = true;
 
+            _filterChanged += () => DisableAllFilter();
+
+            // assing command
+            RefreshCommand = new RelayCommand<object>(async _ => await RefreshExecute(), _ => true);
+            ShowMovieDetails = new RelayCommand<object>(m => ShowMovieDetailsExecute((MovieEntity)m), e => e.GetType() == typeof(MovieEntity));
+            ShowSeriesDetails = new RelayCommand<object>(s => ShowSeriesDetailsExecute((SeriesEntity)s), e => e.GetType() == typeof(SeriesEntity));
+            CloseMoveiDetailsCommand = new RelayCommand<object>(_ => SelectedMovie = null, _ => true);
+            CloseSeriesDetailsCommand = new RelayCommand<object>(_ => SelectedSeries = null, _ => true);
+            DelteMovieFromSavedCommand = new RelayCommand<object>(async m => await DeleteMovieFromSavedExecute((MovieEntity)m), m => m.GetType() == typeof(MovieEntity));
+            ApplySortMovieCommand = new RelayCommand<object>(_ => ApplySortMovieCommandExecute(), _ => true);
+            ApplySortingToSeriesCommand = new RelayCommand<object>(_ => ApplySortSeriesCommandExecute(), _ => true);
+            ApplyFilterMovieCommand = new RelayCommand<object>(_ => ApplyFilterMovieCommandExecute(), _ => true);
+            ApplyFilterSeriesCommand = new RelayCommand<object>(_ => ApplyFilterSeriesCommandExecute(), _ => true);
+        }
 
         public async Task Initilize()
         {
             try
             {
                 IsLoading = true;
-                IsExactMatch = true;
-                SortAscending = true;
-                IsListView = true;
 
-                var movies = await _savedService.GetSavedMovies();
-                movies.ForEach(m => SavedMovies.Add(m));
-                SavedMoviesClone = movies;
+                await Task.WhenAll(
+                    FetchFilms(),
+                    FetchSeries()
+                );
+
 
             }
             catch (ApplicationException ex)
@@ -290,7 +375,6 @@ namespace TrackStar.ViewModels
             catch (Exception ex)
             {
                 Console.WriteLine($"Error adding movie to watchlist: {ex.Message}");
-                ShowToast.ShowError("Error occured");
             }
             finally
             {
@@ -306,5 +390,282 @@ namespace TrackStar.ViewModels
             FilterByTitle = false;
             FilterByWriter = false;
         }
+
+        private async Task FetchFilms()
+        {
+            try
+            {
+                var movies = await _savedService.GetSavedMovies();
+                movies.ForEach(m => SavedMovies.Add(m));
+                SavedMoviesClone = movies;
+            }
+            catch (AppException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding movie to watchlist: {ex.Message}");
+                ShowToast.ShowError("Error occured");
+            }
+        }
+        private async Task FetchSeries()
+        {
+            try
+            {
+                var series = await _savedService.GetSavedSeries();
+                series.ForEach(s => SavedSeries.Add(s));
+                SavedSeriesClone = series;
+            }
+            catch (AppException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding series to watchlist: {ex.Message}");
+                ShowToast.ShowError("Error occured");
+            }
+        }
+
+        private async Task RefreshExecute()
+        {
+            SavedMovies.Clear();
+            SavedSeriesClone.Clear();
+            SavedSeries.Clear();
+            SavedSeriesClone.Clear();
+
+            //SortAscending = false;
+            //SortDescending = false;
+            //SortBy = null!;
+            //SortThenBy = null!;
+            //Query = null!;
+            await Initilize();
+        }
+
+        private void ShowMovieDetailsExecute(MovieEntity movie)
+        {
+            if (movie == null) return;
+            SelectedMovie = movie;
+        }
+        private void ShowSeriesDetailsExecute(SeriesEntity series)
+        {
+            if (series == null) return;
+            SelectedSeries = series;
+
+        }
+ 
+
+        private async Task DeleteMovieFromSavedExecute(MovieEntity entity)
+        {
+            try
+            {
+                IsLoading = true;
+            }
+            catch (AppException ex)
+            {
+                ShowToast.ShowError(ex.Message ?? "Error occured");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error deleting movie from saved: {ex.Message}");
+                ShowToast.ShowError("Error occured");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private void ApplySortMovieCommandExecute()
+        {
+            if(string.IsNullOrEmpty(SortBy) || string.IsNullOrWhiteSpace(SortBy))
+            {
+                ShowToast.ShowError("Please select a valid sort by option.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(SortBy))
+                return;
+
+            // Primary sort
+            IOrderedEnumerable<MovieEntity> sortedMovies = SortCollection(SavedMovies, SortBy);
+
+            // Secondary sort if specified
+            if (!string.IsNullOrWhiteSpace(SortThenBy) && SortThenBy != SortBy)
+            {
+                sortedMovies = SortCollectionThenBy(sortedMovies, SortThenBy);
+            }
+
+            // Update ObservableCollection
+            var sortedList = sortedMovies.ToList();
+            SavedMovies.Clear();
+            foreach (var movie in sortedList)
+                SavedMovies.Add(movie);
+
+            if (!SortAscending)
+            {
+                SavedMovies.Reverse();
+            }
+
+        }
+        
+        private void ApplySortSeriesCommandExecute()
+        {
+            if (string.IsNullOrEmpty(SortBy) || string.IsNullOrWhiteSpace(SortBy))
+            {
+                ShowToast.ShowError("Please select a valid sort by option.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(SortBy))
+                return;
+            // Primary sort
+            IOrderedEnumerable<SeriesEntity> sortedSeries = SortCollection(SavedSeries, SortBy);
+            // Secondary sort if specified
+            if (!string.IsNullOrWhiteSpace(SortThenBy) && SortThenBy != SortBy)
+            {
+                sortedSeries = SortCollectionThenBy(sortedSeries, SortThenBy);
+            }
+            // Update ObservableCollection
+            var sortedList = sortedSeries.ToList();
+            SavedSeries.Clear();
+            foreach (var series in sortedList)
+                SavedSeries.Add(series);
+            if (!SortAscending)
+            {
+                SavedSeries.Reverse();
+            }
+        }
+
+        // sort helpers
+        private IOrderedEnumerable<T> SortCollection<T>(IEnumerable<T> source, string sortField)
+        {
+            return sortField switch
+            {
+                "Title" => source.OrderBy(m => GetPropertyValue(m, "Title")),
+                "Director" => source.OrderBy(m => GetPropertyValue(m, "Director")),
+                "Writer" => source.OrderBy(m => GetPropertyValue(m, "Writer")),
+                "Actors" => source.OrderBy(m => GetPropertyValue(m, "Actors")),
+                "Country" => source.OrderBy(m => GetPropertyValue(m, "Country")),
+                "Genre" => source.OrderBy(m => GetPropertyValue(m, "Genre")),
+                "Created At" => source.OrderBy(m => GetPropertyValue(m, "CreatedAt")),
+                "Updated At" => source.OrderBy(m => GetPropertyValue(m, "UpdatedAt")),
+                "Year" => source.OrderBy(m => GetPropertyValue(m, "Year")),
+                _ => source.OrderBy(m => GetPropertyValue(m, "Title"))
+            };
+        }
+
+        private IOrderedEnumerable<T> SortCollectionThenBy<T>(IOrderedEnumerable<T> source, string sortField)
+        {
+            return sortField switch
+            {
+                "Title" => source.ThenBy(m => GetPropertyValue(m, "Title")),
+                "Director" => source.ThenBy(m => GetPropertyValue(m, "Director")),
+                "Writer" => source.ThenBy(m => GetPropertyValue(m, "Writer")),
+                "Actors" => source.ThenBy(m => GetPropertyValue(m, "Actors")),
+                "Country" => source.ThenBy(m => GetPropertyValue(m, "Country")),
+                "Genre" => source.ThenBy(m => GetPropertyValue(m, "Genre")),
+                "Created At" => source.ThenBy(m => GetPropertyValue(m, "CreatedAt")),
+                "Updated At" => source.ThenBy(m => GetPropertyValue(m, "UpdatedAt")),
+                "Year" => source.ThenBy(m => GetPropertyValue(m, "Year")),
+                _ => source
+            };
+        }
+
+        private object GetPropertyValue<T>(T obj, string propertyName)
+        {
+            return typeof(T).GetProperty(propertyName)?.GetValue(obj, null);
+        }
+        //
+
+
+        // filters
+        private void ApplyFilterMovieCommandExecute()
+        {
+            IEnumerable<MovieEntity> filteredMovies = SavedMovies;
+
+            if (FilterByTitle)
+            {
+                filteredMovies = IsExactMatch
+                    ? filteredMovies.Where(x => string.Equals(x.Title, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredMovies.Where(x => x.Title?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+
+            if (FilterByDirctor)
+            {
+                filteredMovies = IsExactMatch
+                    ? filteredMovies.Where(x => string.Equals(x.Director, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredMovies.Where(x => x.Director?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+
+            if (FilterByWriter)
+            {
+                filteredMovies = IsExactMatch
+                    ? filteredMovies.Where(x => string.Equals(x.Writer, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredMovies.Where(x => x.Writer?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+
+            if (FilterByActors)
+            {
+                filteredMovies = IsExactMatch
+                    ? filteredMovies.Where(x => string.Equals(x.Actors, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredMovies.Where(x => x.Actors?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+
+            if (FilterByCountry)
+            {
+                filteredMovies = IsExactMatch
+                    ? filteredMovies.Where(x => string.Equals(x.Country, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredMovies.Where(x => x.Country?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+
+            // Update collection without breaking UI binding
+            var filteredList = filteredMovies.ToList();
+            SavedMovies.Clear();
+            foreach (var movie in filteredList)
+                SavedMovies.Add(movie);
+        }
+
+        private void ApplyFilterSeriesCommandExecute()
+        {
+            IEnumerable<SeriesEntity> filteredSeries = SavedSeries;
+            if (FilterByTitle)
+            {
+                filteredSeries = IsExactMatch
+                    ? filteredSeries.Where(x => string.Equals(x.Title, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredSeries.Where(x => x.Title?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+            if (FilterByDirctor)
+            {
+                filteredSeries = IsExactMatch
+                    ? filteredSeries.Where(x => string.Equals(x.Director, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredSeries.Where(x => x.Director?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+            if (FilterByWriter)
+            {
+                filteredSeries = IsExactMatch
+                    ? filteredSeries.Where(x => string.Equals(x.Writer, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredSeries.Where(x => x.Writer?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+            if (FilterByActors)
+            {
+                filteredSeries = IsExactMatch
+                    ? filteredSeries.Where(x => string.Equals(x.Actors, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredSeries.Where(x => x.Actors?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+            if (FilterByCountry)
+            {
+                filteredSeries = IsExactMatch
+                    ? filteredSeries.Where(x => string.Equals(x.Country, Query, StringComparison.OrdinalIgnoreCase))
+                    : filteredSeries.Where(x => x.Country?.Contains(Query, StringComparison.OrdinalIgnoreCase) == true);
+            }
+            // Update collection without breaking UI binding
+            var filteredList = filteredSeries.ToList();
+            SavedSeries.Clear();
+            foreach (var series in filteredList)
+                SavedSeries.Add(series);
+        }
+
     }
 }
