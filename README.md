@@ -30,7 +30,7 @@ TrackStar is designed to help movie enthusiasts organize and track their film co
 - **Framework**: WPF (.NET Framework/Core)
 - **Language**: C#
 - **API**: OMDB (Open Movie Database) API
-- **Data Storage**: [Specify database/storage method used]
+- **Data Storage**: sqlite
 - **Architecture**: MVVM (Model-View-ViewModel) pattern
 
 ## Prerequisites
@@ -78,7 +78,6 @@ TrackStar is designed to help movie enthusiasts organize and track their film co
 3. **Manage Your Collection**
    - Browse your saved movies
    - View detailed information for each film
-   - [Additional features as they're implemented]
 
 ## Project Structure
 
@@ -136,14 +135,10 @@ This project is currently in development. Contributions are welcome once the cor
 
 ## Known Issues
 
-- [List current known bugs or limitations]
 - Application is not fully functional yet
 - Some UI elements may be placeholder implementations
 - Data persistence may not be fully implemented
 
-## License
-
-[Specify license type - e.g., MIT, GPL, etc.]
 
 ## Contact
 
@@ -153,7 +148,6 @@ This project is currently in development. Contributions are welcome once the cor
 ## Acknowledgments
 
 - [OMDB API](http://www.omdbapi.com/) for providing movie data
-- [Any other libraries or resources used]
 
 ---
 
