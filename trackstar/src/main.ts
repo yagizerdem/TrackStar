@@ -1,7 +1,8 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "node:path";
 import started from "electron-squirrel-startup";
 import isDev from "electron-is-dev";
+import * as windowController from "./window-controller";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -56,3 +57,15 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+app.whenReady().then(() => {
+  ipcMain.on(
+    "windowController:minimize-window",
+    windowController.minimizeWindow,
+  );
+  ipcMain.on(
+    "windowController:maximize-window",
+    windowController.maximizeWindow,
+  );
+  ipcMain.on("windowController:close-window", windowController.closeWindow);
+});
